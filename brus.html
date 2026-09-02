@@ -17,6 +17,8 @@
             --solo-dark: #d97706;
             --urge-color: #10b981;
             --urge-dark: #047857;
+            --sylte-color: #eab308;
+            --sylte-dark: #a16207;
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --card-bg: rgba(255, 255, 255, 0.96);
             --text-dark: #1e293b;
@@ -41,7 +43,7 @@
         }
 
         .container {
-            max-width: 1080px;
+            max-width: 1180px;
             width: 100%;
         }
 
@@ -57,7 +59,7 @@
             font-weight: 800;
             letter-spacing: -0.5px;
             margin-bottom: 12px;
-            background: linear-gradient(90deg, #ff4e50, #f9d423, #10b981, #00d2ff);
+            background: linear-gradient(90deg, #ff4e50, #f9d423, #10b981, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -71,7 +73,7 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
@@ -79,7 +81,7 @@
         .soda-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 30px 20px;
+            padding: 28px 18px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
@@ -108,10 +110,11 @@
         .card-pepsi::before { background: var(--pepsi-color); }
         .card-solo::before { background: var(--solo-color); }
         .card-urge::before { background: var(--urge-color); }
+        .card-sylte::before { background: linear-gradient(90deg, var(--sylte-color), #38bdf8); }
 
         .soda-icon {
-            font-size: 4rem;
-            margin-bottom: 15px;
+            font-size: 3.8rem;
+            margin-bottom: 12px;
             display: inline-block;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
             transition: transform 0.3s ease;
@@ -123,7 +126,7 @@
 
         .soda-name {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.7rem;
+            font-size: 1.55rem;
             font-weight: 700;
             margin-bottom: 8px;
         }
@@ -132,19 +135,20 @@
         .card-pepsi .soda-name { color: var(--pepsi-color); }
         .card-solo .soda-name { color: var(--solo-color); }
         .card-urge .soda-name { color: var(--urge-dark); }
+        .card-sylte .soda-name { color: var(--sylte-dark); }
 
         .soda-desc {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             line-height: 1.4;
         }
 
         .vote-btn {
             font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            padding: 13px 20px;
+            padding: 12px 16px;
             border: none;
             border-radius: 12px;
             cursor: pointer;
@@ -153,7 +157,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
         }
@@ -188,6 +192,13 @@
         }
         .card-urge .vote-btn:hover {
             box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .card-sylte .vote-btn {
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+        }
+        .card-sylte .vote-btn:hover {
+            box-shadow: 0 8px 20px rgba(234, 179, 8, 0.4);
         }
 
         /* Results section */
@@ -227,7 +238,7 @@
         }
 
         .result-item {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .result-item:last-child {
@@ -279,6 +290,7 @@
         .fill-pepsi { background: linear-gradient(90deg, #3b82f6, var(--pepsi-color)); }
         .fill-solo { background: linear-gradient(90deg, #fbb034, var(--solo-color)); }
         .fill-urge { background: linear-gradient(90deg, #34d399, var(--urge-dark)); }
+        .fill-sylte { background: linear-gradient(90deg, #fef08a, var(--sylte-dark)); }
 
         .actions-footer {
             display: flex;
@@ -342,7 +354,7 @@
     <div class="container">
         <header>
             <h1>🥤 Hva er din favorittbrus?</h1>
-            <p>Velg din favoritt blant favorittene nedenfor. Stemmen din telles opp umiddelbart!</p>
+            <p>Velg din favoritt blant de norske brusfavorittene nedenfor. Stemmen din telles opp umiddelbart!</p>
         </header>
 
         <!-- Brus-valg -->
@@ -392,6 +404,18 @@
                 </div>
                 <button class="vote-btn" onclick="vote('urge')">
                     <span>👍 Stem på Urge</span>
+                </button>
+            </div>
+
+            <!-- Oscar Sylte Sitronbrus -->
+            <div class="soda-card card-sylte" id="card-sylte">
+                <div>
+                    <div class="soda-icon">🍋</div>
+                    <h2 class="soda-name">Oscar Sylte Sitron</h2>
+                    <p class="soda-desc">Møres stolthet fra Molde! Den sagnomsuste, syrlig-friske sitronbrusen med pære/sitruspreg.</p>
+                </div>
+                <button class="vote-btn" onclick="vote('sylte')">
+                    <span>👍 Stem på Sylte</span>
                 </button>
             </div>
         </main>
@@ -459,6 +483,20 @@
                 </div>
             </div>
 
+            <!-- Oscar Sylte resultat -->
+            <div class="result-item" id="result-sylte">
+                <div class="result-meta">
+                    <div>
+                        <span>🍋 Oscar Sylte Sitron</span>
+                        <span class="leader-tag">Leder 👑</span>
+                    </div>
+                    <span id="count-sylte">0 stemmer (0%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fill-sylte" id="bar-sylte"></div>
+                </div>
+            </div>
+
             <div class="actions-footer">
                 <button class="btn-reset" onclick="resetVotes()">🔄 Nullstill stemmer</button>
             </div>
@@ -472,15 +510,17 @@
             cola: 0,
             pepsi: 0,
             solo: 0,
-            urge: 0
+            urge: 0,
+            sylte: 0
         };
 
-        const sodas = ['cola', 'pepsi', 'solo', 'urge'];
+        const sodas = ['cola', 'pepsi', 'solo', 'urge', 'sylte'];
         const sodaNames = {
             cola: 'Cola',
             pepsi: 'Pepsi',
             solo: 'Solo',
-            urge: 'Urge'
+            urge: 'Urge',
+            sylte: 'Oscar Sylte Sitron'
         };
 
         function loadVotes() {
