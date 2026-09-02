@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Askeladden Båter - Modellutvalg</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-dark: #0a192f;
+            --navy-mid: #172a45;
+            --navy-light: #203a61;
+            --accent-blue: #0284c7;
+            --accent-cyan: #06b6d4;
+            --bg-light: #f4f7fa;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-hover: 0 12px 24px -6px rgba(10, 25, 47, 0.12), 0 4px 8px -4px rgba(10, 25, 47, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            color: white;
+            padding: 4rem 2rem 3.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .hero .badge-hero {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.2);
+            color: #38bdf8;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: -2rem auto 4rem;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+
+        /* Search & Filter Toolbar */
+        .filter-toolbar {
+            background: var(--card-bg);
+            padding: 1.25rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .cat-btn.active {
+            background: var(--navy-dark);
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.55rem 1rem 0.55rem 2.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Boats Grid */
+        .boats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Boat Card */
+        .boat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .boat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .boat-visual {
+            height: 190px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .boat-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-pill {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(10, 25, 47, 0.75);
+            color: #38bdf8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .boat-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .boat-title-row {
+            margin-bottom: 0.5rem;
+        }
+
+        .boat-title-row h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .boat-series {
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .boat-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        /* Spec Badges */
+        .specs-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            background: #f8fafc;
+            padding: 0.9rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #edf2f7;
+            margin-bottom: 1.25rem;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .spec-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .btn-view-details {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--navy-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-view-details:hover {
+            background: var(--accent-blue);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            padding: 1rem;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.6rem;
+            color: var(--navy-dark);
+        }
+
+        .modal-highlights {
+            margin: 1.25rem 0;
+            padding-left: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .modal-highlights li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <span class="badge-hero">Norsk Båtbyggerkunst</span>
+        <h1>Askeladden Båter</h1>
+        <p>Utforsk moderne modeller skapt for nordiske forhold – fra sportslige daycruisere til helårs styrhusbåter.</p>
+    </header>
+
+    <main class="container">
+        <!-- Filter and Search -->
+        <section class="filter-toolbar">
+            <div class="filter-categories" id="category-filters">
+                <button class="cat-btn active" data-cat="all">Alle modeller</button>
+                <button class="cat-btn" data-cat="Daycruiser">Daycruisere (C-serie)</button>
+                <button class="cat-btn" data-cat="Styrhusbåt">Styrhus / SUV (P-serie)</button>
+                <button class="cat-btn" data-cat="Bowrider">Bowridere</button>
+            </div>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-box-input" placeholder="Søk modell eller motor...">
+            </div>
+        </section>
+
+        <!-- Boat Cards Grid -->
+        <section class="boats-grid" id="boats-container">
+            <!-- Populated dynamically via JS -->
+        </section>
+    </main>
+
+    <!-- Modal for Detailed Info -->
+    <div id="boat-modal" class="modal hidden">
+        <div class="modal-card">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <span class="boat-series" id="modal-series">Serie</span>
+                <h2 id="modal-title">Modellnavn</h2>
+            </div>
+            <p id="modal-desc" style="color: var(--text-muted); margin-bottom: 1rem;"></p>
+            
+            <div class="specs-list" id="modal-specs">
+                <!-- Specs -->
+            </div>
+
+            <h4 style="margin-top: 1.25rem; font-size: 1rem; color: var(--navy-dark);">Hovedegenskaper & Høydepunkter</h4>
+            <ul class="modal-highlights" id="modal-features">
+                <!-- Features -->
+            </ul>
+
+            <button class="btn-view-details" id="modal-btn-close" style="margin-top: 1.25rem;">Lukk visning</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Askeladden Modellguide &bull; Bygget for optimal sjødyktighet og komfort på fjorden.</p>
+    </footer>
+
+    <script>
+        const boats = [
+            {
+                id: "c83",
+                name: "Askeladden C83 Cruiser TSI",
+                series: "C-Serien",
+                category: "Daycruiser",
+                length: "8,30 m",
+                beam: "2,80 m",
+                engine: "300 - 350 HK",
+                sleeps: "4 + 2 personer",
+                passengers: "10 pers",
+                description: "Flaggskipet blant dag- og weekendcruisere med overlegen TSI skrogteknologi, enorm cockpit og full overnattingskomfort.",
+                features: [
+                    "TSI skrog (Twin Step Infusion) for optimal fart og lavt forbruk",
+                    "Separat toalettrom med servant og dusj",
+                    "Romslig akterkabin og forpigg med soveplass for opptil 6",
+                    "Stor L-sofa i cockpit med integrert solseng og pantry"
+                ],
+                icon: "🛥️"
+            },
+            {
+                id: "c70",
+                name: "Askeladden C70 Cruiser",
+                series: "C-Serien",
+                category: "Daycruiser",
+                length: "6,99 m",
+                beam: "2,55 m",
+                engine: "150 - 250 HK",
+                sleeps: "2 personer",
+                passengers: "7 pers",
+                description: "Den perfekte daycruiseren for venner og familie med sosial sittegruppe, overnattingsmulighet og sportslig kjøreopplevelse.",
+                features: [
+                    "Klassens mest sosiale cockpit med vendbare seter",
+                    "Kalesjegarasje for rask og enkel håndtering",
+                    "Kabin med god liggeplass og mulighet for sjøtoalett",
+                    "Integrert badeplattform med enkel adkomst"
+                ],
+                icon: "🚤"
+            },
+            {
+                id: "p92",
+                name: "Askeladden P92 SUV",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                length: "9,20 m",
+                beam: "3,10 m",
+                engine: "300 - 2x250 HK",
+                sleeps: "4 personer",
+                passengers: "10 pers",
+                description: "En ekte SUV for sjøen med helårskomfort, panoramautsikt, lukket styrhus og gigantisk akterdekk.",
+                features: [
+                    "Lukket og isolert styrhus med varmeanlegg for helårsbruk",
+                    "Stort og fleksibelt akterdekk for fiske, vannsport og transport",
+                    "To doble sovekabiner og romslig baderom",
+                    "Mulighet for både enkel og dobbel utenbordsmotor"
+                ],
+                icon: "⛴️"
+            },
+            {
+                id: "p79",
+                name: "Askeladden P79 Passage",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                length: "7,85 m",
+                beam: "2,80 m",
+                engine: "200 - 300 HK",
+                sleeps: "2-4 personer",
+                passengers: "8 pers",
+                description: "Moderne pendler- og weekendbåt med lukket kabin, skyvedører og komfortable seter uansett værforhold.",
+                features: [
+                    "Smarte skyvedører til både akterdekk og sidedekk",
+                    "God siktlinje 360 grader fra førerposisjon",
+                    "Komfortabel overnattingskabin for helgeturer",
+                    "Svært drivstoffgjerrig og myk i røff sjø"
+                ],
+                icon: "⚓"
+            },
+            {
+                id: "c65-bowrider",
+                name: "Askeladden C65 Bowrider",
+                series: "C-Serien",
+                category: "Bowrider",
+                length: "6,45 m",
+                beam: "2,46 m",
+                engine: "150 - 200 HK",
+                sleeps: "Ingen (Dagstur)",
+                passengers: "7 pers",
+                description: "Sportslig og åpen skjærgårdsbåt med dyp baug-sittebrønn, ypperlig for dagsutflukter og vannsport.",
+                features: [
+                    "Dyp og sikker sittebrønn forut med enkel ombordstigning",
+                    "Integrert kjøleskuff og bordløsning i cockpit",
+                    "Enkelt vannskitårn / vannsportbøyle",
+                    "Høy toppfart og kvikk respons på styringen"
+                ],
+                icon: "🏄"
+            },
+            {
+                id: "p66-multi",
+                name: "Askeladden P66 Multi",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                length: "6,60 m",
+                beam: "2,50 m",
+                engine: "90 - 150 HK",
+                sleeps: "Ingen (Bruksbåt)",
+                passengers: "7 pers",
+                description: "Den ultimate bruks-, transport- og fiskebåten med markedets største arbeidsdekk i sin klasse.",
+                features: [
+                    "Kompakt styrhus plassert til styrbord for maksimalt dekksareal",
+                    "Spylepumpe og dedikerte fiskekummer tilgjengelig",
+                    "Robuste rekker og kraftige fortøyningsbeslag",
+                    "Modulbasert innredning tilpasset fiske eller transport"
+                ],
+                icon: "🎣"
+            }
+        ];
+
+        const container = document.getElementById('boats-container');
+        const searchInput = document.getElementById('search-box-input');
+        const catButtons = document.querySelectorAll('.cat-btn');
+
+        let activeCategory = 'all';
+
+        function renderBoats() {
+            const query = searchInput.value.toLowerCase().trim();
+            const filtered = boats.filter(boat => {
+                const matchesCat = activeCategory === 'all' || boat.category === activeCategory;
+                const matchesSearch = boat.name.toLowerCase().includes(query) ||
+                                      boat.category.toLowerCase().includes(query) ||
+                                      boat.engine.toLowerCase().includes(query) ||
+                                      boat.description.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
+            });
+
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 12px;">
+                        <h3>Ingen modeller matchet søket ditt</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">Prøv å endre søkeord eller velg en annen kategori.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(boat => {
+                const card = document.createElement('div');
+                card.className = 'boat-card';
+                card.innerHTML = `
+                    <div class="boat-visual">
+                        <span class="category-pill">${boat.category}</span>
+                        <div class="boat-icon">${boat.icon}</div>
+                    </div>
+                    <div class="boat-body">
+                        <div class="boat-title-row">
+                            <span class="boat-series">${boat.series}</span>
+                            <h3>${boat.name}</h3>
+                        </div>
+                        <p class="boat-desc">${boat.description}</p>
+                        
+                        <div class="specs-list">
+                            <div class="spec-item">
+                                <span class="spec-label">Lengde</span>
+                                <span class="spec-val">${boat.length}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Motor</span>
+                                <span class="spec-val">${boat.engine}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Soveplasser</span>
+                                <span class="spec-val">${boat.sleeps}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Kapasitet</span>
+                                <span class="spec-val">${boat.passengers}</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-view-details" onclick="openDetails('${boat.id}')">Se detaljer & spesifikasjoner</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Category filter buttons
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-cat');
+                renderBoats();
+            });
+        });
+
+        // Search input
+        searchInput.addEventListener('input', renderBoats);
+
+        // Modal details
+        const modal = document.getElementById('boat-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSeries = document.getElementById('modal-series');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalSpecs = document.getElementById('modal-specs');
+        const modalFeatures = document.getElementById('modal-features');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalBtnClose = document.getElementById('modal-btn-close');
+
+        window.openDetails = function(id) {
+            const boat = boats.find(b => b.id === id);
+            if (!boat) return;
+
+            modalTitle.textContent = boat.name;
+            modalSeries.textContent = boat.series + ' • ' + boat.category;
+            modalDesc.textContent = boat.description;
+
+            modalSpecs.innerHTML = `
+                <div class="spec-item"><span class="spec-label">Lengde</span><span class="spec-val">${boat.length}</span></div>
+                <div class="spec-item"><span class="spec-label">Bredde</span><span class="spec-val">${boat.beam}</span></div>
+                <div class="spec-item"><span class="spec-label">Motoranbefaling</span><span class="spec-val">${boat.engine}</span></div>
+                <div class="spec-item"><span class="spec-label">Soveplasser</span><span class="spec-val">${boat.sleeps}</span></div>
+            `;
+
+            modalFeatures.innerHTML = boat.features.map(f => `<li>${f}</li>`).join('');
+
+            modal.classList.remove('hidden');
+        };
+
+        modalCloseBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modalBtnClose.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.add('hidden');
+        });
+
+        // Initial render
+        renderBoats();
+    </script>
+</body>
+</html>
