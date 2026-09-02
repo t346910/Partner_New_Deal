@@ -19,13 +19,29 @@ foreach ($f in $files) {
     }
 }
 
-# Sjekk innhold i askeladden.html
+# Sjekk innhold i askeladden.html (båter, bilder og priser)
 if (Test-Path "askeladden.html") {
     $askContent = Get-Content "askeladden.html" -Raw
     $hasModels = $askContent -match "C83 Cruiser" -and $askContent -match "P92 SUV"
+    $hasPrices = $askContent -match "price:" -and $askContent -match "formatNOK"
+    $hasImages = $askContent -match "image:" -and $askContent -match "modal-img"
+    $hasSort = $askContent -match "sort-select"
+
     $testResults += [PSCustomObject]@{
         Test = "askeladden.html inneholder båtmodeller"
         Status = if ($hasModels) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html inneholder priser og formatering"
+        Status = if ($hasPrices) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html inneholder bilder og modal-galleri"
+        Status = if ($hasImages) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html har prissortering"
+        Status = if ($hasSort) { "PASS" } else { "FAIL" }
     }
 }
 
