@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Askeladden Båter - Priser, Modeller, Sammenligning & Teknisk Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-dark: #0a192f;
+            --navy-mid: #172a45;
+            --navy-light: #203a61;
+            --accent-blue: #0284c7;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+            --gold: #d4a359;
+            --bg-light: #f4f7fa;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-hover: 0 16px 32px -8px rgba(10, 25, 47, 0.16);
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav Header */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.85rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), #966f2d);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(212, 163, 89, 0.3);
+        }
+
+        .brand-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 0.55rem 0.9rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.95) 0%, rgba(32, 58, 97, 0.92) 100%), 
+                        url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            padding: 4.5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .badge-hero {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.25);
+            color: #38bdf8;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: -2.5rem auto 4rem;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+
+        /* Navigation Tabs */
+        .tabs-header {
+            display: flex;
+            gap: 0.5rem;
+            background: #e2e8f0;
+            padding: 6px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: var(--navy-dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Toolbar: Filter, Sort & Search */
+        .filter-toolbar {
+            background: var(--card-bg);
+            padding: 1.25rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .cat-btn.active {
+            background: var(--navy-dark);
+            color: white;
+        }
+
+        .controls-right {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .sort-select {
+            padding: 0.55rem 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            background: var(--card-bg);
+            font-family: inherit;
+            color: var(--text-main);
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.55rem 1rem 0.55rem 2.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .search-box input:focus, .sort-select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Boats Grid */
+        .boats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Boat Card */
+        .boat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .boat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .boat-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: #1e293b;
+        }
+
+        .boat-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .boat-card:hover .boat-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .category-pill {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(10, 25, 47, 0.85);
+            color: #38bdf8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tsi-pill {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--gold), #b37e28);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .price-badge-overlay {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.35rem 0.85rem;
+            border-radius: 8px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .price-badge-overlay span {
+            color: #38bdf8;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: block;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .boat-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .boat-title-row {
+            margin-bottom: 0.4rem;
+        }
+
+        .boat-title-row h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .boat-series {
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .boat-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        /* Spec Badges */
+        .specs-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            background: #f8fafc;
+            padding: 0.9rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #edf2f7;
+            margin-bottom: 1.25rem;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .spec-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .btn-view-details {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--navy-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn-view-details:hover {
+            background: var(--accent-blue);
+        }
+
+        .btn-quick-cmp {
+            padding: 0.75rem 1rem;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-quick-cmp:hover {
+            background: #e2e8f0;
+        }
+
+        /* Comparison Section */
+        .compare-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .compare-selectors {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .select-wrap label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .select-wrap select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: #f8fafc;
+            outline: none;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare-table th, .compare-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .compare-table th:first-child, .compare-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: #f8fafc;
+            width: 25%;
+        }
+
+        .compare-winner {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        /* Buying Advisor Wizard */
+        .wizard-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-card {
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-card:hover {
+            border-color: var(--accent-blue);
+            background: rgba(2, 132, 199, 0.03);
+        }
+
+        .option-card.selected {
+            border-color: var(--accent-blue);
+            background: rgba(2, 132, 199, 0.08);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+        }
+
+        .option-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--navy-dark);
+        }
+
+        .wizard-result {
+            display: none;
+            background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
+            border: 1px solid #bae6fd;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Technical Hub & Troubleshooting */
+        .trouble-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+        }
+
+        .trouble-menu {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            height: fit-content;
+        }
+
+        .trouble-item-btn {
+            padding: 0.85rem 1.1rem;
+            text-align: left;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .trouble-item-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .trouble-item-btn.active {
+            background: var(--navy-dark);
+            color: #fff;
+        }
+
+        .trouble-content-box {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .check-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        /* Calculator */
+        .calc-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .calc-input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .calc-input-group input, .calc-input-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .calc-result-box {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .calc-metric {
+            margin-bottom: 1.25rem;
+        }
+
+        .calc-metric-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            padding: 1rem;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            max-width: 750px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-img-container {
+            position: relative;
+            height: 260px;
+            background: #1e293b;
+        }
+
+        .modal-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 1.75rem;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(10, 25, 47, 0.7);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            z-index: 5;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(10, 25, 47, 0.95);
+        }
+
+        .modal-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .modal-header-row h2 {
+            font-size: 1.65rem;
+            color: var(--navy-dark);
+        }
+
+        .modal-price-tag {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .modal-highlights {
+            margin: 1.25rem 0;
+            padding-left: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .modal-highlights li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        @media (max-width: 900px) {
+            .trouble-grid, .calc-card, .compare-selectors {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand">
+                <div class="brand-logo">A</div>
+                <div>
+                    <div class="brand-title">Askeladden</div>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a class="nav-link active" onclick="switchTab('models')">Modelloversikt</a></li>
+                <li><a class="nav-link" onclick="switchTab('compare')">Sammenligning</a></li>
+                <li><a class="nav-link" onclick="switchTab('advisor')">Båtvelger</a></li>
+                <li><a class="nav-link" onclick="switchTab('tech')">Teknisk & Feilsøking</a></li>
+                <li><a class="nav-link" onclick="switchTab('calc')">Forbrukskalkulator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header class="hero">
+        <span class="badge-hero">Norsk Båtbyggerkunst i Verdensklasse</span>
+        <h1>Askeladden Båter</h1>
+        <p>Utforsk moderne modeller, veiledende priser, tekniske spesifikasjoner, sammenligninger og ekspertfeilsøking fra Henrik J. Askviks Sønner AS.</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Navigation Tabs -->
+        <div class="tabs-header">
+            <button class="tab-btn active" id="btn-models" onclick="switchTab('models')">🚤 Modeller & Priser</button>
+            <button class="tab-btn" id="btn-compare" onclick="switchTab('compare')">⚖️ Sammenligning</button>
+            <button class="tab-btn" id="btn-advisor" onclick="switchTab('advisor')">🧭 Båtvelger & Kjøpsråd</button>
+            <button class="tab-btn" id="btn-tech" onclick="switchTab('tech')">🔧 Teknisk Hub & Feilsøking</button>
+            <button class="tab-btn" id="btn-calc" onclick="switchTab('calc')">⛽ Forbrukskalkulator</button>
+        </div>
+
+        <!-- TAB 1: MODELLOVERSIKT & PRISER -->
+        <section id="tab-models" class="tab-panel active">
+            <!-- Filter, Sort and Search -->
+            <div class="filter-toolbar">
+                <div class="filter-categories" id="category-filters">
+                    <button class="cat-btn active" data-cat="all">Alle modeller</button>
+                    <button class="cat-btn" data-cat="Daycruiser">Daycruisere (C-serie)</button>
+                    <button class="cat-btn" data-cat="Styrhusbåt">Styrhus / SUV (P-serie)</button>
+                    <button class="cat-btn" data-cat="Bowrider">Bowridere</button>
+                    <button class="cat-btn" data-cat="Klassiker">Klassikere</button>
+                </div>
+                <div class="controls-right">
+                    <select id="sort-select" class="sort-select">
+                        <option value="featured">Anbefalt rekkefølge</option>
+                        <option value="price-asc">Pris: Lav til Høy</option>
+                        <option value="price-desc">Pris: Høy til Lav</option>
+                        <option value="length-desc">Lengde: Lengst først</option>
+                    </select>
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-box-input" placeholder="Søk modell, motor eller pris...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boat Cards Grid -->
+            <div class="boats-grid" id="boats-container"></div>
+        </section>
+
+        <!-- TAB 2: SAMMENLIGNING -->
+        <section id="tab-compare" class="tab-panel">
+            <div class="compare-container">
+                <h2 style="font-family: 'Space Grotesk', sans-serif; margin-bottom: 0.5rem; color: var(--navy-dark);">Sammenlign Askeladden-modeller</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Velg inntil tre modeller for direkte sammenligning av spesifikasjoner, fart og drivstofforbruk.</p>
+                <div class="compare-selectors">
+                    <div class="select-wrap">
+                        <label>Modell 1</label>
+                        <select id="compareSelect1" onchange="updateComparison()"></select>
+                    </div>
+                    <div class="select-wrap">
+                        <label>Modell 2</label>
+                        <select id="compareSelect2" onchange="updateComparison()"></select>
+                    </div>
+                    <div class="select-wrap">
+                        <label>Modell 3</label>
+                        <select id="compareSelect3" onchange="updateComparison()"></select>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="compare-table" id="compareResultTable"></table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: BÅTVELGER -->
+        <section id="tab-advisor" class="tab-panel">
+            <div class="wizard-card">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <span class="badge-hero">Interaktiv Kjøpsguide</span>
+                    <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; color: var(--navy-dark); margin-top: 0.5rem;">Finn din perfekte Askeladden</h2>
+                    <p style="color: var(--text-muted);">Svar på 3 enkle spørsmål om bruksområde og overnatting for en skreddersydd anbefaling.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--navy-dark);">1. Hva er primærbruken?</h3>
+                    <div class="options-grid" id="q-usage">
+                        <div class="option-card selected" onclick="selectAdvisorOption('usage', 'daycruise', this)">
+                            <div class="option-title">☀️ Sol & Dagscruising</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Bading, vannsport og helgeturer i godt vær.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('usage', 'weekend', this)">
+                            <div class="option-title">⚓ Ferie & Familieferie</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Komfortabel overnatting, pantry og separat toalettrom.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('usage', 'allround', this)">
+                            <div class="option-title">🌧️ Helårsbruk, Fiske & Transport</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Lukket styrehus, varmeanlegg og stort akterdekk.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--navy-dark);">2. Hvor mange overnattingsplasser trengs?</h3>
+                    <div class="options-grid" id="q-sleep">
+                        <div class="option-card selected" onclick="selectAdvisorOption('sleep', '0-2', this)">
+                            <div class="option-title">0 - 2 personer</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Dagsturer eller enkel overnatting for et par.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('sleep', '2-4', this)">
+                            <div class="option-title">2 - 4 personer</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Overnatting for familie med barn.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('sleep', '4+', this)">
+                            <div class="option-title">4 - 6 personer</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Maksimal bokomfort for lengre turer.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--navy-dark);">3. Budsjett og Størrelse</h3>
+                    <div class="options-grid" id="q-budget">
+                        <div class="option-card selected" onclick="selectAdvisorOption('budget', 'compact', this)">
+                            <div class="option-title">Kompakt (6.0 - 7.0 m)</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Lettkjørt, lavt forbruk og rimeligere i innkjøp.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('budget', 'mid', this)">
+                            <div class="option-title">Mellomklasse (7.5 - 8.3 m)</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Flott balanse mellom plass, fart og sjøegenskaper.</div>
+                        </div>
+                        <div class="option-card" onclick="selectAdvisorOption('budget', 'flagship', this)">
+                            <div class="option-title">Flaggskip (8.5 - 9.5 m)</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Ultimat luksus, dobbel motor og maksimal trygghet.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="btn-view-details" style="display: inline-block; width: auto; padding: 0.9rem 2.5rem; font-size: 1.05rem;" onclick="generateAdvisorRecommendation()">Vis anbefalt Askeladden</button>
+                </div>
+
+                <div id="advisorResult" class="wizard-result"></div>
+            </div>
+        </section>
+
+        <!-- TAB 4: TEKNISK HUB & FEILSØKING -->
+        <section id="tab-tech" class="tab-panel">
+            <div class="trouble-grid">
+                <div class="trouble-menu">
+                    <button class="trouble-item-btn active" onclick="showTroubleSection('tsi', this)">🌊 TSI-Skrog & Trimming</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('engine-start', this)">⚡ Motor vil ikke starte</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('fuel-water', this)">⛽ Drivstoff & Vannutskiller</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('bilge-pump', this)">🚿 Lensesystem & Pumper</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('electrical', this)">🔋 Batteri & 12V-anlegg</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('winter', this)">❄️ Vinterlagring Sjekkliste</button>
+                    <button class="trouble-item-btn" onclick="showTroubleSection('spring', this)">☀️ Vårklargjøring Sjekkliste</button>
+                </div>
+                <div class="trouble-content-box" id="troubleContent"></div>
+            </div>
+        </section>
+
+        <!-- TAB 5: FORBRUKSKALKULATOR -->
+        <section id="tab-calc" class="tab-panel">
+            <div class="calc-card">
+                <div>
+                    <h2 style="font-family: 'Space Grotesk', sans-serif; color: var(--navy-dark); margin-bottom: 1.25rem;">Beregn Forbruk & Rekkevidde</h2>
+                    <div class="calc-input-group">
+                        <label>Velg båtmodell:</label>
+                        <select id="calcModelSelect" onchange="runCalculation()"></select>
+                    </div>
+                    <div class="calc-input-group">
+                        <label>Gjennomsnittlig marsjfart (knop):</label>
+                        <input type="number" id="calcSpeed" value="26" min="15" max="45" oninput="runCalculation()">
+                    </div>
+                    <div class="calc-input-group">
+                        <label>Drivstoffpris (kr per liter):</label>
+                        <input type="number" id="calcFuelPrice" value="23.5" step="0.5" oninput="runCalculation()">
+                    </div>
+                    <div class="calc-input-group">
+                        <label>Estimerte driftstimer per sesong:</label>
+                        <input type="number" id="calcHours" value="65" min="10" max="300" oninput="runCalculation()">
+                    </div>
+                </div>
+                <div class="calc-result-box">
+                    <div class="calc-metric">
+                        <div style="font-size: 0.85rem; color: #94a3b8;">Forbruk i marsjfart</div>
+                        <div class="calc-metric-val" id="resLPerNm">1.25 L/NM</div>
+                    </div>
+                    <div class="calc-metric">
+                        <div style="font-size: 0.85rem; color: #94a3b8;">Estimert rekkevidde (m/ 10% reserve)</div>
+                        <div class="calc-metric-val" id="resRange">185 NM</div>
+                    </div>
+                    <div class="calc-metric">
+                        <div style="font-size: 0.85rem; color: #94a3b8;">Forbruk per time</div>
+                        <div class="calc-metric-val" id="resLPerHour">32.5 L/t</div>
+                    </div>
+                    <div class="calc-metric" style="margin-bottom: 0;">
+                        <div style="font-size: 0.85rem; color: #94a3b8;">Estimert drivstoffkostnad per sesong</div>
+                        <div class="calc-metric-val" style="color: #6ee7b7;" id="resSeasonCost">49 600 kr</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Detailed Info -->
+    <div id="boat-modal" class="modal hidden">
+        <div class="modal-card">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <div class="modal-img-container">
+                <img id="modal-img" src="" alt="Båt">
+            </div>
+            <div class="modal-body">
+                <div class="modal-header-row">
+                    <div>
+                        <span class="boat-series" id="modal-series">Serie</span>
+                        <h2 id="modal-title">Modellnavn</h2>
+                    </div>
+                    <div class="modal-price-tag" id="modal-price">0 kr</div>
+                </div>
+                <p id="modal-desc" style="color: var(--text-muted); margin-bottom: 1.25rem;"></p>
+                
+                <div class="specs-list" id="modal-specs"></div>
+
+                <h4 style="margin-top: 1.25rem; font-size: 1rem; color: var(--navy-dark);">Hovedegenskaper & Utstyr</h4>
+                <ul class="modal-highlights" id="modal-features"></ul>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn-quick-cmp" style="flex: 1;" id="modal-btn-compare">Sammenlign denne</button>
+                    <button class="btn-view-details" id="modal-btn-close" style="flex: 1;">Lukk visning</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Askeladden Modellguide &bull; Henrik J. Askviks Sønner AS &bull; Priser er veiledende fra-priser inkl. mva og standard motorpakke.</p>
+    </footer>
+
+    <script>
+        const boats = [
+            {
+                id: "c83",
+                name: "Askeladden C83 Cruiser TSI",
+                series: "C-Serien",
+                category: "Daycruiser",
+                hasTSI: true,
+                lengthNum: 8.30,
+                length: "8,30 m",
+                beam: "2,80 m",
+                weight: "2200 kg",
+                price: 2150000,
+                engine: "300 - 350 HK (Suzuki)",
+                maxEngine: 350,
+                topSpeed: "47 knop",
+                cruiseSpeed: "28-34 knop",
+                fuelTank: 280,
+                fuelAtCruise: "1.35 L/NM",
+                sleeps: "4 + 2 personer",
+                passengers: "10 pers",
+                image: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=800&q=80",
+                description: "Flaggskipet blant dag- og weekendcruisere med overlegen TSI-skrogteknologi, enorm cockpit og full overnattingskomfort for hele familien.",
+                features: [
+                    "TSI skrog (Twin Step Infusion) for optimal fart, balanse og lavt drivstofforbruk",
+                    "Separat toalettrom med servant, dusj og trykkvann",
+                    "Romslig akterkabin og forpigg med behagelig soveplass for opptil 6 personer",
+                    "Stor L-sofa i cockpit med integrert solseng, pantry og kjøleskuff",
+                    "Ekstra stor badeplattform med integrert badestige"
+                ]
+            },
+            {
+                id: "p92",
+                name: "Askeladden P92 SUV",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                hasTSI: true,
+                lengthNum: 9.20,
+                length: "9,20 m",
+                beam: "3,10 m",
+                weight: "3100 kg",
+                price: 2490000,
+                engine: "350 HK enkel / 2x250 HK Twin",
+                maxEngine: 500,
+                topSpeed: "46 knop",
+                cruiseSpeed: "28-34 knop",
+                fuelTank: 450,
+                fuelAtCruise: "1.95 L/NM",
+                sleeps: "4 personer",
+                passengers: "10 pers",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+                description: "En ekte SUV for sjøen med kompromissløs helårskomfort, panoramautsikt, lukket styrhus og gigantisk akterdekk for allsidig bruk.",
+                features: [
+                    "Lukket og fullisolert styrhus med kraftig varmeanlegg for helårsbruk",
+                    "Kjempestort og fleksibelt akterdekk for fiske, teiner, vannsport og transport",
+                    "To romslige doble sovekabiner og separat baderom med dusj",
+                    "Mulighet for både enkel og dobbel utenbordsmotor (opptil 500 HK totalt)"
+                ]
+            },
+            {
+                id: "p79",
+                name: "Askeladden P79 Passage",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                hasTSI: true,
+                lengthNum: 7.85,
+                length: "7,85 m",
+                beam: "2,80 m",
+                weight: "2200 kg",
+                price: 1580000,
+                engine: "200 - 300 HK",
+                maxEngine: 300,
+                topSpeed: "44 knop",
+                cruiseSpeed: "26-32 knop",
+                fuelTank: 300,
+                fuelAtCruise: "1.38 L/NM",
+                sleeps: "2-4 personer",
+                passengers: "8 pers",
+                image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+                description: "Moderne pendler- og helårsbåt med lukket kabin, smarte skyvedører og komfortable seter uansett vær- og sjøforhold.",
+                features: [
+                    "Smarte skyvedører til både akterdekk og sidedekk for enkel ombordstigning",
+                    "360-graders panoramautsikt fra ergonomisk førerposisjon",
+                    "Komfortabel overnattingskabin med toalett for helgeturer",
+                    "Gjennomtenkt skrog som gir myk og stille gange i grov sjø"
+                ]
+            },
+            {
+                id: "c70",
+                name: "Askeladden C70 Cruiser",
+                series: "C-Serien",
+                category: "Daycruiser",
+                hasTSI: true,
+                lengthNum: 6.99,
+                length: "6,99 m",
+                beam: "2,55 m",
+                weight: "1650 kg",
+                price: 1190000,
+                engine: "150 - 250 HK",
+                maxEngine: 250,
+                topSpeed: "45 knop",
+                cruiseSpeed: "26-32 knop",
+                fuelTank: 230,
+                fuelAtCruise: "1.15 L/NM",
+                sleeps: "2 personer",
+                passengers: "7 pers",
+                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80",
+                description: "Den perfekte daycruiseren for familie og venner med markedets mest sosiale sittegruppe, overnattingsmulighet og sportslig kjøreopplevelse.",
+                features: [
+                    "Klassens mest sosiale cockpit med vendbare førerstoler og solseng",
+                    "Skjult kalesjegarasje for rask opp- og nedrigging på sekunder",
+                    "Lys overnattingskabin med god liggeplass og mulighet for sjøtoalett",
+                    "Integrert badeplattform med enkel adkomst fra cockpit"
+                ]
+            },
+            {
+                id: "c65-bowrider",
+                name: "Askeladden C65 Bowrider",
+                series: "C-Serien",
+                category: "Bowrider",
+                hasTSI: true,
+                lengthNum: 6.45,
+                length: "6,45 m",
+                beam: "2,46 m",
+                weight: "1350 kg",
+                price: 890000,
+                engine: "150 - 200 HK",
+                maxEngine: 200,
+                topSpeed: "44 knop",
+                cruiseSpeed: "26-32 knop",
+                fuelTank: 220,
+                fuelAtCruise: "1.02 L/NM",
+                sleeps: "Dagstur",
+                passengers: "7 pers",
+                image: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d17?auto=format&fit=crop&w=800&q=80",
+                description: "Sportslig og åpen skjærgårdsbåt med dyp baug-sittebrønn, ypperlig for dagsutflukter, solbading og vannsport.",
+                features: [
+                    "Dyp og sikker sittebrønn forut med enkel ombordstigning og trinn",
+                    "Integrert kjøleskuff og fleksibel bordløsning i aktercockpit",
+                    "Solid vannsportbøyle og store stuerom for vannski/wakeboard",
+                    "Høy toppfart, lavt tyngdepunkt og presis respons på styringen"
+                ]
+            },
+            {
+                id: "p66-multi",
+                name: "Askeladden P66 Multi",
+                series: "P-Serien",
+                category: "Styrhusbåt",
+                hasTSI: false,
+                lengthNum: 6.60,
+                length: "6,60 m",
+                beam: "2,50 m",
+                weight: "1500 kg",
+                price: 680000,
+                engine: "90 - 150 HK",
+                maxEngine: 150,
+                topSpeed: "35 knop",
+                cruiseSpeed: "22-26 knop",
+                fuelTank: 140,
+                fuelAtCruise: "1.05 L/NM",
+                sleeps: "Bruksbåt",
+                passengers: "7 pers",
+                image: "https://images.unsplash.com/photo-1520255870062-bd79d3865de7?auto=format&fit=crop&w=800&q=80",
+                description: "Den ultimate bruks-, transport- og fiskebåten med markedets største arbeidsdekk i sin klasse og solid styrhus.",
+                features: [
+                    "Kompakt styrhus plassert til styrbord for maksimalt fritt dekksareal",
+                    "Spylepumpe, stangholdere og dedikerte fiskekummer tilgjengelig",
+                    "Robuste rekker, høye fribord og kraftige fortøyningsbeslag",
+                    "Modulbasert innredning tilpasset fiske, teiner eller transport"
+                ]
+            },
+            {
+                id: "475-freestyle",
+                name: "Askeladden 475 Freestyle",
+                series: "Klassikere",
+                category: "Klassiker",
+                hasTSI: false,
+                lengthNum: 4.77,
+                length: "4,77 m",
+                beam: "1,90 m",
+                weight: "500 kg",
+                price: 240000,
+                engine: "50 - 60 HK",
+                maxEngine: 60,
+                topSpeed: "32 knop",
+                cruiseSpeed: "20-24 knop",
+                fuelTank: 60,
+                fuelAtCruise: "0.55 L/NM",
+                sleeps: "0 pers",
+                passengers: "5 pers",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+                description: "Norges mest solgte og anerkjente landstedsbåt gjennom tidene. Lettplanende, usenkbar og enkel i bruk.",
+                features: [
+                    "Selvlensende dørk og usenkbar konstruksjon",
+                    "Styrekonsoll med vindskjerm og solide rekker",
+                    "Enkel å trekke på tilhenger med vanlig personbil"
+                ]
+            }
+        ];
+
+        function formatNOK(num) {
+            return new Intl.NumberFormat('no-NO', { style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }).format(num);
+        }
+
+        const container = document.getElementById('boats-container');
+        const searchInput = document.getElementById('search-box-input');
+        const sortSelect = document.getElementById('sort-select');
+        const catButtons = document.querySelectorAll('.cat-btn');
+
+        let activeCategory = 'all';
+
+        function renderBoats() {
+            const query = searchInput.value.toLowerCase().trim();
+            const sortMode = sortSelect.value;
+
+            let filtered = boats.filter(boat => {
+                const matchesCat = activeCategory === 'all' || boat.category === activeCategory;
+                const matchesSearch = boat.name.toLowerCase().includes(query) ||
+                                      boat.category.toLowerCase().includes(query) ||
+                                      boat.engine.toLowerCase().includes(query) ||
+                                      boat.price.toString().includes(query) ||
+                                      boat.description.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
+            });
+
+            if (sortMode === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortMode === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortMode === 'length-desc') {
+                filtered.sort((a, b) => b.lengthNum - a.lengthNum);
+            }
+
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 16px; border: 1px solid var(--border-color);">
+                        <h3>Ingen modeller matchet søket ditt</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">Prøv å endre søkeord eller velg en annen kategori.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(boat => {
+                const card = document.createElement('div');
+                card.className = 'boat-card';
+                card.innerHTML = `
+                    <div class="boat-img-wrapper">
+                        <img src="${boat.image}" alt="${boat.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80'">
+                        <span class="category-pill">${boat.category}</span>
+                        ${boat.hasTSI ? '<span class="tsi-pill">TSI STEPPED</span>' : ''}
+                        <div class="price-badge-overlay">
+                            <span>Fra</span>
+                            ${formatNOK(boat.price)}
+                        </div>
+                    </div>
+                    <div class="boat-body">
+                        <div class="boat-title-row">
+                            <span class="boat-series">${boat.series}</span>
+                            <h3>${boat.name}</h3>
+                        </div>
+                        <p class="boat-desc">${boat.description}</p>
+                        
+                        <div class="specs-list">
+                            <div class="spec-item">
+                                <span class="spec-label">Lengde</span>
+                                <span class="spec-val">${boat.length}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Motor</span>
+                                <span class="spec-val">${boat.engine}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Soveplasser</span>
+                                <span class="spec-val">${boat.sleeps}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Kapasitet</span>
+                                <span class="spec-val">${boat.passengers}</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button class="btn-view-details" onclick="openDetails('${boat.id}')">Se detaljer & utstyr</button>
+                            <button class="btn-quick-cmp" title="Sammenlign" onclick="quickCompare('${boat.id}')">⚖️</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-cat');
+                renderBoats();
+            });
+        });
+
+        searchInput.addEventListener('input', renderBoats);
+        sortSelect.addEventListener('change', renderBoats);
+
+        /* Tabs Switching */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            const activePanel = document.getElementById('tab-' + tabId);
+            if (activeBtn) activeBtn.classList.add('active');
+            if (activePanel) activePanel.classList.add('active');
+
+            const navMap = { 'models': 0, 'compare': 1, 'advisor': 2, 'tech': 3, 'calc': 4 };
+            const navLinks = document.querySelectorAll('.nav-link');
+            if (navLinks[navMap[tabId]]) navLinks[navMap[tabId]].classList.add('active');
+        }
+
+        /* Modal Details */
+        const modal = document.getElementById('boat-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSeries = document.getElementById('modal-series');
+        const modalPrice = document.getElementById('modal-price');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalSpecs = document.getElementById('modal-specs');
+        const modalFeatures = document.getElementById('modal-features');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalBtnClose = document.getElementById('modal-btn-close');
+        const modalBtnCompare = document.getElementById('modal-btn-compare');
+
+        let currentModalBoatId = null;
+
+        window.openDetails = function(id) {
+            const boat = boats.find(b => b.id === id);
+            if (!boat) return;
+            currentModalBoatId = boat.id;
+
+            modalImg.src = boat.image;
+            modalTitle.textContent = boat.name;
+            modalSeries.textContent = boat.series + ' • ' + boat.category;
+            modalPrice.textContent = 'Fra ' + formatNOK(boat.price);
+            modalDesc.textContent = boat.description;
+
+            modalSpecs.innerHTML = `
+                <div class="spec-item"><span class="spec-label">Lengde / Bredde</span><span class="spec-val">${boat.length} x ${boat.beam}</span></div>
+                <div class="spec-item"><span class="spec-label">Vekt</span><span class="spec-val">${boat.weight || 'Ca. 1800 kg'}</span></div>
+                <div class="spec-item"><span class="spec-label">Motoranbefaling</span><span class="spec-val">${boat.engine}</span></div>
+                <div class="spec-item"><span class="spec-label">Soveplasser / CE</span><span class="spec-val">${boat.sleeps} (${boat.passengers})</span></div>
+                <div class="spec-item"><span class="spec-label">Toppfart / Marsj</span><span class="spec-val">${boat.topSpeed} / ${boat.cruiseSpeed}</span></div>
+                <div class="spec-item"><span class="spec-label">Forbruk marsjfart</span><span class="spec-val">${boat.fuelAtCruise}</span></div>
+            `;
+
+            modalFeatures.innerHTML = boat.features.map(f => `<li>${f}</li>`).join('');
+            modal.classList.remove('hidden');
+        };
+
+        modalCloseBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modalBtnClose.addEventListener('click', () => modal.classList.add('hidden'));
+        modalBtnCompare.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            quickCompare(currentModalBoatId);
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.add('hidden');
+        });
+
+        /* Comparison Logic */
+        function initComparison() {
+            const s1 = document.getElementById('compareSelect1');
+            const s2 = document.getElementById('compareSelect2');
+            const s3 = document.getElementById('compareSelect3');
+
+            const optionsHtml = boats.map((b, i) => `<option value="${b.id}">${b.name}</option>`).join('');
+            s1.innerHTML = optionsHtml;
+            s2.innerHTML = optionsHtml;
+            s3.innerHTML = optionsHtml;
+
+            s1.selectedIndex = 0;
+            s2.selectedIndex = 1;
+            s3.selectedIndex = 2;
+
+            updateComparison();
+        }
+
+        function quickCompare(id) {
+            switchTab('compare');
+            document.getElementById('compareSelect1').value = id;
+            updateComparison();
+        }
+
+        function updateComparison() {
+            const id1 = document.getElementById('compareSelect1').value;
+            const id2 = document.getElementById('compareSelect2').value;
+            const id3 = document.getElementById('compareSelect3').value;
+
+            const b1 = boats.find(b => b.id === id1) || boats[0];
+            const b2 = boats.find(b => b.id === id2) || boats[1];
+            const b3 = boats.find(b => b.id === id3) || boats[2];
+
+            const table = document.getElementById('compareResultTable');
+            table.innerHTML = `
+                <thead>
+                    <tr style="background: #f8fafc;">
+                        <th>Egenskap</th>
+                        <th style="font-size: 1.05rem; color: var(--navy-dark);">${b1.name}</th>
+                        <th style="font-size: 1.05rem; color: var(--navy-dark);">${b2.name}</th>
+                        <th style="font-size: 1.05rem; color: var(--navy-dark);">${b3.name}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Veiledende Pris</td><td><strong>${formatNOK(b1.price)}</strong></td><td><strong>${formatNOK(b2.price)}</strong></td><td><strong>${formatNOK(b3.price)}</strong></td></tr>
+                    <tr><td>Kategori</td><td>${b1.category}</td><td>${b2.category}</td><td>${b3.category}</td></tr>
+                    <tr><td>Skrog</td><td>${b1.hasTSI ? '✅ TSI Steppet' : 'Klassisk V-bunn'}</td><td>${b2.hasTSI ? '✅ TSI Steppet' : 'Klassisk V-bunn'}</td><td>${b3.hasTSI ? '✅ TSI Steppet' : 'Klassisk V-bunn'}</td></tr>
+                    <tr><td>Lengde / Bredde</td><td>${b1.length} / ${b1.beam}</td><td>${b2.length} / ${b2.beam}</td><td>${b3.length} / ${b3.beam}</td></tr>
+                    <tr><td>Soveplasser</td><td>${b1.sleeps}</td><td>${b2.sleeps}</td><td>${b3.sleeps}</td></tr>
+                    <tr><td>Kapasitet</td><td>${b1.passengers}</td><td>${b2.passengers}</td><td>${b3.passengers}</td></tr>
+                    <tr><td>Motoranbefaling</td><td>${b1.engine}</td><td>${b2.engine}</td><td>${b3.engine}</td></tr>
+                    <tr><td>Toppfart</td><td class="compare-winner">${b1.topSpeed}</td><td class="compare-winner">${b2.topSpeed}</td><td class="compare-winner">${b3.topSpeed}</td></tr>
+                    <tr><td>Marsjforbruk</td><td>${b1.fuelAtCruise}</td><td>${b2.fuelAtCruise}</td><td>${b3.fuelAtCruise}</td></tr>
+                </tbody>
+            `;
+        }
+
+        /* Advisor Quiz */
+        let advisorAnswers = { usage: 'daycruise', sleep: '0-2', budget: 'compact' };
+
+        function selectAdvisorOption(q, val, elem) {
+            advisorAnswers[q] = val;
+            elem.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            elem.classList.add('selected');
+        }
+
+        function generateAdvisorRecommendation() {
+            let recId = 'c70';
+            let reason = '';
+
+            if (advisorAnswers.usage === 'allround') {
+                if (advisorAnswers.budget === 'flagship' || advisorAnswers.sleep === '4+') {
+                    recId = 'p92';
+                    reason = 'Du prioriterer maksimal helårskomfort, gigantisk akterdekk og trygghet for mange personer. P92 SUV gir kompromissløs styrhusluksus.';
+                } else {
+                    recId = 'p79';
+                    reason = 'P79 Passage er den ideelle moderne SUV-båten med panoramasikt, skyvedører og TSI-komfort.';
+                }
+            } else if (advisorAnswers.usage === 'weekend') {
+                if (advisorAnswers.budget === 'flagship' || advisorAnswers.sleep === '4+') {
+                    recId = 'c83';
+                    reason = 'Askeladden C83 Cruiser TSI har alt: romslige kabiner, separat toalett/dusj og fantastisk fartsytelse.';
+                } else {
+                    recId = 'c70';
+                    reason = 'C70 Cruiser kombinerer overlegen cockpit-plass med separat toalettrom og enkel håndtering.';
+                }
+            } else {
+                recId = advisorAnswers.budget === 'compact' ? 'c65-bowrider' : 'c70';
+                reason = 'Perfekt for solfylte dager, bading, vannsport og enkel manøvrering i skjærgården.';
+            }
+
+            const recBoat = boats.find(b => b.id === recId) || boats[0];
+            const resBox = document.getElementById('advisorResult');
+            resBox.style.display = 'block';
+            resBox.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <span class="badge-hero" style="margin-bottom: 4px;">Vår anbefaling</span>
+                        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.7rem; color: var(--navy-dark);">${recBoat.name}</h3>
+                    </div>
+                    <div class="modal-price-tag">Fra ${formatNOK(recBoat.price)}</div>
+                </div>
+                <p style="font-size: 1rem; margin-bottom: 1.25rem;">${reason}</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn-view-details" onclick="openDetails('${recBoat.id}')">Se alle detaljer om ${recBoat.name}</button>
+                </div>
+            `;
+            resBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* Troubleshooting Hub */
+        const troubleData = {
+            'tsi': {
+                title: 'TSI Skrogteknologi (Twin Step Infusion) & Riktig Trim',
+                content: `
+                    <p style="margin-bottom: 1rem;">Twin Step Infusion er Askeladdens patenterte steppede skrogteknologi. Luft ventileres inn under skroget og danner en smørende luftpute som reduserer friksjonen mot sjøen.</p>
+                    <ul style="padding-left: 1.25rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                        <li><strong>15–20% lavere drivstofforbruk</strong> ved normal marsjfart.</li>
+                        <li><strong>Høyere toppfart</strong> med samme motorstørrelse.</li>
+                        <li><strong>Planer nesten flatt</strong> uten markant planingsterskel.</li>
+                    </ul>
+                    <h4 style="color: var(--navy-dark); margin-bottom: 0.5rem;">Trimmetips:</h4>
+                    <p>I marsjfart trenger TSI-skroget mindre positiv trim (ut) enn tradisjonelle skrog. La skroget hvile på de to luftputene for optimal drivstofføkonomi.</p>
+                `
+            },
+            'engine-start': {
+                title: 'Motor vil ikke starte / fusker',
+                content: `
+                    <div class="checklist-group">
+                        <div class="check-item"><input type="checkbox" id="t1"><label for="t1"><strong>1. Dødmannssnor:</strong> Kontroller at dødmannsknappen er trykket helt inn og festet.</label></div>
+                        <div class="check-item"><input type="checkbox" id="t2"><label for="t2"><strong>2. Gir i nøytral:</strong> Beveg gass/girspaken litt frem og tilbake for å sikre kontakt.</label></div>
+                        <div class="check-item"><input type="checkbox" id="t3"><label for="t3"><strong>3. Batterispenning:</strong> Kontroller at hovedstrømbryter er ON og hvilespenning > 12.5V.</label></div>
+                        <div class="check-item"><input type="checkbox" id="t4"><label for="t4"><strong>4. Drivstofftilførsel:</strong> Sjekk tanklufting og at hurtigkoblinger sitter godt.</label></div>
+                    </div>
+                `
+            },
+            'fuel-water': {
+                title: 'Drivstoffsystem & Vannutskiller',
+                content: `
+                    <p style="margin-bottom: 1rem;">Kondensvann i drivstoffet er en hyppig feilkilde. Tøm inspeksjonsglasset på vannutskilleren jevnlig og bytt filterelement årlig.</p>
+                    <p style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem; border-radius: 6px;">💡 <strong>Tips:</strong> Bruk 98 Oktan bensin (E5) for vinteropplag for å unngå etanolrelatert korrosjon.</p>
+                `
+            },
+            'bilge-pump': {
+                title: 'Lensesystem & Pumper',
+                content: `
+                    <p>Askeladden leveres med både selvlensende dørk og automatisk elektrisk lensepumpe. Sjekk jevnlig at nivåbryteren / flottøren i kjølsvinet ikke henger seg opp i smuss.</p>
+                `
+            },
+            'electrical': {
+                title: 'Elektrisk Anlegg, 12V & Batteribanker',
+                content: `
+                    <p>Båten er utstyrt med separat start- og forbruksbatteri med automatisk laderelé (VSR). Sett begge brytere på ON ved normal drift. Nødsammenkobling brukes kun ved flatt startbatteri.</p>
+                `
+            },
+            'winter': {
+                title: 'Vinterlagring Sjekkliste',
+                content: `
+                    <div class="check-item"><input type="checkbox" id="w1"><label for="w1">Ferskvannskjøring av motor med spyleklokker</label></div>
+                    <div class="check-item"><input type="checkbox" id="w2"><label for="w2">Skifte av girolje og motorolje/filter</label></div>
+                    <div class="check-item"><input type="checkbox" id="w3"><label for="w3">Drivstoffstabilisator på full tank</label></div>
+                    <div class="check-item"><input type="checkbox" id="w4"><label for="w4">Tømming av ferskvann og frostvæske i toalett/septik</label></div>
+                    <div class="check-item"><input type="checkbox" id="w5"><label for="w5">Fullades batterier og koble fra poler</label></div>
+                `
+            },
+            'spring': {
+                title: 'Vårklargjøring Sjekkliste',
+                content: `
+                    <div class="check-item"><input type="checkbox" id="s1"><label for="s1">Påføring av nytt selvpolerende bunnstoff og skrogpolering</label></div>
+                    <div class="check-item"><input type="checkbox" id="s2"><label for="s2">Kontroll og skifte av offeranoder (sink)</label></div>
+                    <div class="check-item"><input type="checkbox" id="s3"><label for="s3">Sjekk av styring og oljenivå i styrepumpe</label></div>
+                    <div class="check-item"><input type="checkbox" id="s4"><label for="s4">Husk bunnproppen før sjøsetting!</label></div>
+                `
+            }
+        };
+
+        function showTroubleSection(key, btnElem) {
+            document.querySelectorAll('.trouble-item-btn').forEach(b => b.classList.remove('active'));
+            if (btnElem) btnElem.classList.add('active');
+            const data = troubleData[key];
+            document.getElementById('troubleContent').innerHTML = `
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: var(--navy-dark); margin-bottom: 1.25rem;">${data.title}</h3>
+                ${data.content}
+            `;
+        }
+
+        /* Calculator */
+        function initCalc() {
+            const sel = document.getElementById('calcModelSelect');
+            sel.innerHTML = boats.map(b => `<option value="${b.id}">${b.name} (${b.fuelAtCruise})</option>`).join('');
+            runCalculation();
+        }
+
+        function runCalculation() {
+            const id = document.getElementById('calcModelSelect').value;
+            const b = boats.find(x => x.id === id) || boats[0];
+            const speed = parseFloat(document.getElementById('calcSpeed').value) || 26;
+            const price = parseFloat(document.getElementById('calcFuelPrice').value) || 23.5;
+            const hours = parseFloat(document.getElementById('calcHours').value) || 65;
+
+            const lPerNm = parseFloat(b.fuelAtCruise.replace(' L/NM', '')) || 1.2;
+            const litersPerHour = lPerNm * speed;
+            const rangeNm = Math.round((b.fuelTank * 0.9) / lPerNm);
+            const totalSeason = Math.round(litersPerHour * hours * price);
+
+            document.getElementById('resLPerNm').innerText = lPerNm.toFixed(2) + ' L/NM';
+            document.getElementById('resRange').innerText = rangeNm + ' NM';
+            document.getElementById('resLPerHour').innerText = litersPerHour.toFixed(1) + ' L/t';
+            document.getElementById('resSeasonCost').innerText = totalSeason.toLocaleString('no-NO') + ' kr';
+        }
+
+        // Initialize Everything
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBoats();
+            initComparison();
+            initCalc();
+            showTroubleSection('tsi', document.querySelector('.trouble-item-btn.active'));
+        });
+    </script>
+</body>
+</html>

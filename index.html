@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner New Deal - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🤝</span>
+                <h1>Partner New Deal</h1>
+            </div>
+            <nav class="nav-links">
+                <button id="btn-show-deals" class="nav-btn active">Avtaler</button>
+                <button id="btn-show-partners" class="nav-btn">Partnere</button>
+                <button id="btn-new-deal" class="btn-primary">+ Ny avtale</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Stats bar -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Totalt antall avtaler</h3>
+                <p id="stat-total-deals" class="stat-value">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Under forhandling</h3>
+                <p id="stat-pending-deals" class="stat-value">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Fullførte avtaler</h3>
+                <p id="stat-completed-deals" class="stat-value">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total verdi</h3>
+                <p id="stat-total-value" class="stat-value">0 kr</p>
+            </div>
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="controls-section">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Søk etter partner, avtale eller kontaktperson...">
+            </div>
+            <div class="filter-box">
+                <select id="status-filter">
+                    <option value="all">Alle statuser</option>
+                    <option value="Utkast">Utkast</option>
+                    <option value="Forhandling">Forhandling</option>
+                    <option value="Signert">Signert</option>
+                    <option value="Avvist">Avvist</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Deals Table View -->
+        <section id="deals-section" class="content-section">
+            <div class="section-header">
+                <h2>Oversikt over avtaler</h2>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tittel</th>
+                            <th>Partner</th>
+                            <th>Verdi (NOK)</th>
+                            <th>Status</th>
+                            <th>Opprettet</th>
+                            <th>Handlinger</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deals-table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Modal for New Deal -->
+        <div id="deal-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Registrer ny partneravtale</h2>
+                    <button id="modal-close" class="close-btn">&times;</button>
+                </div>
+                <form id="deal-form">
+                    <div class="form-group">
+                        <label for="deal-title">Avtaletittel *</label>
+                        <input type="text" id="deal-title" required placeholder="F.eks. Årsavtale Integrasjon 2026">
+                    </div>
+                    <div class="form-group">
+                        <label for="deal-partner">Partnernavn *</label>
+                        <input type="text" id="deal-partner" required placeholder="F.eks. Acro Solutions AS">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deal-value">Verdi (NOK) *</label>
+                            <input type="number" id="deal-value" min="0" required placeholder="F.eks. 250000">
+                        </div>
+                        <div class="form-group">
+                            <label for="deal-status">Status</label>
+                            <select id="deal-status">
+                                <option value="Utkast">Utkast</option>
+                                <option value="Forhandling" selected>Forhandling</option>
+                                <option value="Signert">Signert</option>
+                                <option value="Avvist">Avvist</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deal-notes">Notater / Beskrivelse</label>
+                        <textarea id="deal-notes" rows="3" placeholder="Detaljer om leveranse, vilkår, kontaktinfo..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="modal-cancel" class="btn-secondary">Avbryt</button>
+                        <button type="submit" class="btn-primary">Lagre avtale</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
