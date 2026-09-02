@@ -1,0 +1,519 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorittbrus - Stem på din favoritt!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cola-color: #e50914;
+            --cola-dark: #b80710;
+            --pepsi-color: #005cb9;
+            --pepsi-dark: #00448a;
+            --solo-color: #ff9100;
+            --solo-dark: #d97706;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #ff4e50, #f9d423, #00d2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .soda-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .soda-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .soda-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+        }
+
+        .card-cola::before { background: var(--cola-color); }
+        .card-pepsi::before { background: var(--pepsi-color); }
+        .card-solo::before { background: var(--solo-color); }
+
+        .soda-icon {
+            font-size: 4.2rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .soda-card:hover .soda-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .soda-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-cola .soda-name { color: var(--cola-color); }
+        .card-pepsi .soda-name { color: var(--pepsi-color); }
+        .card-solo .soda-name { color: var(--solo-color); }
+
+        .soda-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .vote-btn {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .vote-btn:active {
+            transform: scale(0.96);
+        }
+
+        .card-cola .vote-btn {
+            background: linear-gradient(135deg, var(--cola-color), var(--cola-dark));
+        }
+        .card-cola .vote-btn:hover {
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.4);
+        }
+
+        .card-pepsi .vote-btn {
+            background: linear-gradient(135deg, var(--pepsi-color), var(--pepsi-dark));
+        }
+        .card-pepsi .vote-btn:hover {
+            box-shadow: 0 8px 20px rgba(0, 92, 185, 0.4);
+        }
+
+        .card-solo .vote-btn {
+            background: linear-gradient(135deg, var(--solo-color), var(--solo-dark));
+        }
+        .card-solo .vote-btn:hover {
+            box-shadow: 0 8px 20px rgba(255, 145, 0, 0.4);
+        }
+
+        /* Results section */
+        .results-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .results-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .total-badge {
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .result-item {
+            margin-bottom: 22px;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .leader-tag {
+            background: #fef08a;
+            color: #854d0e;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: none;
+        }
+
+        .is-leader .leader-tag {
+            display: inline-block;
+        }
+
+        .progress-bar-bg {
+            height: 18px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fill-cola { background: linear-gradient(90deg, #ff4b4b, var(--cola-color)); }
+        .fill-pepsi { background: linear-gradient(90deg, #3b82f6, var(--pepsi-color)); }
+        .fill-solo { background: linear-gradient(90deg, #fbb034, var(--solo-color)); }
+
+        .actions-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: #f8fafc;
+            color: #ef4444;
+            border-color: #fca5a5;
+        }
+
+        .pop-animation {
+            animation: pop 0.4s ease forwards;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            background: #1e293b;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🥤 Hva er din favorittbrus?</h1>
+            <p>Velg din favoritt blant de tre klassikerne nedenfor. Stemmen din telles opp umiddelbart!</p>
+        </header>
+
+        <!-- Brus-valg -->
+        <main class="cards-grid">
+            <!-- Cola -->
+            <div class="soda-card card-cola" id="card-cola">
+                <div>
+                    <div class="soda-icon">🥤</div>
+                    <h2 class="soda-name">Cola</h2>
+                    <p class="soda-desc">Den udødelige klassikeren med unik smak, masse kullsyre og oppkvikkende effekt.</p>
+                </div>
+                <button class="vote-btn" onclick="vote('cola')">
+                    <span>👍 Stem på Cola</span>
+                </button>
+            </div>
+
+            <!-- Pepsi -->
+            <div class="soda-card card-pepsi" id="card-pepsi">
+                <div>
+                    <div class="soda-icon">🧊</div>
+                    <h2 class="soda-name">Pepsi</h2>
+                    <p class="soda-desc">Søt, frisk og med en distinkt sitrustone. Favoritten for mange bruselskere.</p>
+                </div>
+                <button class="vote-btn" onclick="vote('pepsi')">
+                    <span>👍 Stem på Pepsi</span>
+                </button>
+            </div>
+
+            <!-- Solo -->
+            <div class="soda-card card-solo" id="card-solo">
+                <div>
+                    <div class="soda-icon">🍊</div>
+                    <h2 class="soda-name">Solo</h2>
+                    <p class="soda-desc">Den originale gule appelsinbrusen fra Norge. Frisk, fruktig og uimotståelig!</p>
+                </div>
+                <button class="vote-btn" onclick="vote('solo')">
+                    <span>👍 Stem på Solo</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Resultater -->
+        <section class="results-section">
+            <div class="results-header">
+                <h2 class="results-title">📊 Stemmeresultater</h2>
+                <div class="total-badge" id="total-badge">Totalt avgitte stemmer: 0</div>
+            </div>
+
+            <!-- Cola resultat -->
+            <div class="result-item" id="result-cola">
+                <div class="result-meta">
+                    <div>
+                        <span>🔴 Cola</span>
+                        <span class="leader-tag">Leder 👑</span>
+                    </div>
+                    <span id="count-cola">0 stemmer (0%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fill-cola" id="bar-cola"></div>
+                </div>
+            </div>
+
+            <!-- Pepsi resultat -->
+            <div class="result-item" id="result-pepsi">
+                <div class="result-meta">
+                    <div>
+                        <span>🔵 Pepsi</span>
+                        <span class="leader-tag">Leder 👑</span>
+                    </div>
+                    <span id="count-pepsi">0 stemmer (0%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fill-pepsi" id="bar-pepsi"></div>
+                </div>
+            </div>
+
+            <!-- Solo resultat -->
+            <div class="result-item" id="result-solo">
+                <div class="result-meta">
+                    <div>
+                        <span>🟠 Solo</span>
+                        <span class="leader-tag">Leder 👑</span>
+                    </div>
+                    <span id="count-solo">0 stemmer (0%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fill-solo" id="bar-solo"></div>
+                </div>
+            </div>
+
+            <div class="actions-footer">
+                <button class="btn-reset" onclick="resetVotes()">🔄 Nullstill stemmer</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="toast" id="toast">Takk for din stemme!</div>
+
+    <script>
+        let votes = {
+            cola: 0,
+            pepsi: 0,
+            solo: 0
+        };
+
+        function loadVotes() {
+            const saved = localStorage.getItem('soda_votes');
+            if (saved) {
+                try {
+                    votes = JSON.parse(saved);
+                } catch (e) {
+                    console.error("Kunne ikke lese lagrede stemmer:", e);
+                }
+            }
+            updateUI();
+        }
+
+        function saveVotes() {
+            localStorage.setItem('soda_votes', JSON.stringify(votes));
+        }
+
+        function vote(soda) {
+            if (votes.hasOwnProperty(soda)) {
+                votes[soda]++;
+                saveVotes();
+                updateUI();
+                showFeedback(soda);
+            }
+        }
+
+        function showFeedback(soda) {
+            const names = {
+                cola: 'Cola',
+                pepsi: 'Pepsi',
+                solo: 'Solo'
+            };
+            const toast = document.getElementById('toast');
+            toast.textContent = `🎉 Du ga en stemme til ${names[soda]}!`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+
+            const card = document.getElementById(`card-${soda}`);
+            if (card) {
+                card.classList.remove('pop-animation');
+                void card.offsetWidth;
+                card.classList.add('pop-animation');
+            }
+        }
+
+        function resetVotes() {
+            if (confirm("Er du sikker på at du vil nullstille alle stemmene?")) {
+                votes = { cola: 0, pepsi: 0, solo: 0 };
+                saveVotes();
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const total = votes.cola + votes.pepsi + votes.solo;
+            document.getElementById('total-badge').textContent = `Totalt avgitte stemmer: ${total}`;
+
+            const sodas = ['cola', 'pepsi', 'solo'];
+            const maxVotes = Math.max(votes.cola, votes.pepsi, votes.solo);
+
+            sodas.forEach(soda => {
+                const count = votes[soda];
+                const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+                
+                document.getElementById(`count-${soda}`).textContent = `${count} ${count === 1 ? 'stemme' : 'stemmer'} (${percentage}%)`;
+                document.getElementById(`bar-${soda}`).style.width = `${percentage}%`;
+
+                const itemElem = document.getElementById(`result-${soda}`);
+                if (count > 0 && count === maxVotes) {
+                    itemElem.classList.add('is-leader');
+                } else {
+                    itemElem.classList.remove('is-leader');
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadVotes);
+    </script>
+</body>
+</html>
