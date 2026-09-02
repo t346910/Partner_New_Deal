@@ -43,6 +43,28 @@ if (Test-Path "askeladden.html") {
         Test = "askeladden.html har prissortering"
         Status = if ($hasSort) { "PASS" } else { "FAIL" }
     }
+
+    $hasLeaflet = $askContent -match "leaflet\.js" -and $askContent -match "nauticalMap"
+    $hasOpenSeaMap = $askContent -match "tiles\.openseamap\.org"
+    $hasRouteCalc = $askContent -match "calcDistanceNM" -and $askContent -match "routeDistVal"
+    $hasMarineWeather = $askContent -match "fetchMarineWeather"
+
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html har Leaflet og interaktivt sjøkart"
+        Status = if ($hasLeaflet) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html har OpenSeaMap sjømerker og fyr-overlay"
+        Status = if ($hasOpenSeaMap) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html har distanse- og forbruksberegning for ruter"
+        Status = if ($hasRouteCalc) { "PASS" } else { "FAIL" }
+    }
+    $testResults += [PSCustomObject]@{
+        Test = "askeladden.html har marint vær- og bølgevarsel"
+        Status = if ($hasMarineWeather) { "PASS" } else { "FAIL" }
+    }
 }
 
 # Skriv ut resultater
