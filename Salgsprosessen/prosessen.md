@@ -1,23 +1,24 @@
-# Forenkling av Partnerprosess i Salesforce
+# Forenkling av Partnerprosess i Salesforce (inkl. B2B & FPP)
 
-Dette dokumentet beskriver den standardiserte salgsprosessen og samspillet mellom **Telenor Salg** og **Partnere** (Business Partner Access - BPA / Fast Partner Pris - FPP) i Salesforce Lightning, samt metodikken for Verdibasert Salg (VBS), digital signeringsflyt og påkrevde juridiske standardklausuler for kundespesifikke avtaler.
+Dette dokumentet beskriver den standardiserte salgsprosessen og samspillet mellom **Telenor Salg** og **Partnere** (Fast Partner Pris - FPP / Business Partner Access - BPA) i Salesforce Lightning. Prosessen dekker metodikken for Verdibasert Salg (VBS), digital signeringsflyt (BankID / DocuSign), Back-to-back B2B-avtale ved kundespesifikke krav, og påkrevde juridiske standardklausuler.
 
 ---
 
 ## Innholdsfortegnelse
 1. [Overordnet Prosessoversikt & 6-Trinns Samspill](#1-overordnet-prosessoversikt--6-trinns-samspill)
-2. [Trinn-for-Trinn Salesforce Klikkvei & Samhandlingsflyt](#2-trinn-for-trinn-salesforce-klikkvei--samhandlingsflyt)
-3. [Salgsveiledning & Kritiske Spørsmål (Guidance)](#3-salgsveiledning--kritiske-spørsmål-guidance)
-4. [VBS (Verdibasert Salg) Faser & KPI-er](#4-vbs-verdibasert-salg-faser--kpi-er)
-5. [Oppdaterte Sjekklister for Roller](#5-oppdaterte-sjekklister-for-roller)
-6. [Kundespesifikke Avtaler & Standardklausuler](#6-kundespesifikke-avtaler--standardklausuler)
-7. [Referanser & Salesforce Eksempler](#7-referanser--salesforce-eksempler)
+2. [Salesforce Salgssteg & Trinn-for-Trinn Klikkvei](#2-salesforce-salgssteg--trinn-for-trinn-klikkvei)
+3. [Omfattende Salgsveiledning & Kritiske Spørsmål (Guidance)](#3-omfattende-salgsveiledning--kritiske-spørsmål-guidance)
+4. [B2B Back-to-Back Avtale & Juridisk Kvalitetssikring](#4-b2b-back-to-back-avtale--juridisk-kvalitetssikring)
+5. [VBS (Verdibasert Salg) Faser & KPI-er](#5-vbs-verdibasert-salg-faser--kpi-er)
+6. [Oppdaterte Sjekklister for Roller](#6-oppdaterte-sjekklister-for-roller)
+7. [Kundespesifikke Avtaler & Standardklausuler](#7-kundespesifikke-avtaler--standardklausuler)
+8. [Referanser & Salesforce Eksempler](#8-referanser--salesforce-eksempler)
 
 ---
 
 ## 1. Overordnet Prosessoversikt & 6-Trinns Samspill
 
-Salgsprosessen er strukturert i 6 sammenhengende faser med klar ansvarsfordeling mellom Telenor Kundeansvarlig (KAM/Selger) og Partner:
+Salgsprosessen koordineres gjennom Salesforce Lightning og fordeler ansvaret mellom Telenor Kundeansvarlig (KAM/Selger) og Partner:
 
 ```mermaid
 sequenceDiagram
@@ -27,156 +28,231 @@ sequenceDiagram
     actor K as Kunde
     participant SF as Salesforce Lightning
 
-    Note over T,SF: Steg 1: Igangsette kunde-/behovsavklaring
-    T->>SF: Opprette Opportunity (Suspecting, Kilde, Lukkedato, Sannsynlighet)
+    Note over T,SF: Steg 1: Suspecting – Kunde-/behovsavklaring
+    T->>SF: Opprette Opportunity (Kunde, Close Date, Kilde, Suspecting, Revenue - kroner)
 
-    Note over T,P: Steg 2: Lead sendes til partner
-    T->>T: Avklare beslutningstakere & dokumentere pains/behov
-    T->>P: Invitere inn partner til behovs- og løsningsavklaring
-    P->>K: Igangsette behovsavklaring med kunde
+    Note over T,P: Steg 2: Prospecting – Lead sendes til partner
+    T->>T: Kartlegge beslutningstakere & dokumentere pains/behov
+    T->>SF: Oppdatere Opportunity Team & invitere inn Partner
+    P->>K: Igangsette behovsavklaring & samkjøre verdihypoteser
+    P->>K: Booke formelt verdimøte
 
-    Note over P,T: Steg 3: Partner utarbeider verdiforslag
-    P->>K: Utarbeide løsnings- og prisforslag (Kunde bekrefter)
-    P->>P: Oppdatere FPP Telenor Tjenesteavtale
-    P->>T: Oversende oppdatert FPP Telenor Tjenesteavtale
+    Note over P,T: Steg 3: Kvalifisering / Utarbeide tilbud – Partner utarbeider verdiforslag
+    P->>K: Gjennomføre workshops / kartlegge tekniske & forretningsmessige krav
+    P->>K: Visualisere løsningsarkitektur & synliggjøre ROI / kundeverdi
+    P->>P: Utarbeide prisforslag & oppdatere FPP Telenor Tjenesteavtale
+    P->>T: Oversende ferdig FPP Tjenesteavtale til Telenor KAM
 
-    Note over T,SF: Steg 4: Booke salget i Salesforce
+    Note over T,SF: Steg 4: Inngå Kontrakt – Booke salget i Salesforce
     T->>SF: Opprette Quote (Pricing approval not Required)
     T->>SF: Add produkt: Søk FPP & velg FPP Partner
-    T->>SF: Legge inn avtalte priser, antall og type -> Salget er Booket
+    T->>SF: Legge inn avtalte priser, antall og type
+    alt Kundespesifikk avtale = JA
+        T->>P: Signere Back-to-Back B2B-avtale mellom Telenor & Partner
+    end
+    T->>K: Sende tilbud til kunde (kopi til KAM) & innhente muntlig aksept
 
-    Note over T,K: Steg 5: Oppdater kontrakt og få den signert
+    Note over T,K: Steg 5: Inngå Kontrakt – Digital Signering
     T->>SF: New Contract (Start/slutt-dato, Type: Kundekontrakt)
     T->>SF: Last opp FPP Tjenesteavtale under Documents
-    T->>SF: Start digital signature (Intern signerer m/mandat + Ekstern signerer)
-    SF->>K: Sende kontrakt til digital signering
+    T->>SF: Start digital signature (Intern signatør m/mandat + Ekstern signatør)
+    SF->>K: Kontrakt sendes til e-signering (BankID / DocuSign)
+    K->>SF: Signert kontrakt arkiveres automatisk
 
-    Note over T,P: Steg 6: Produksjonssetting / Tapsanalyse
-    alt Salg Vunnet
-        T->>P: Signert kontrakt oversendes partner
+    Note over T,P: Steg 6: Closed – Produksjonssetting / Tapsanalyse
+    alt Salg Vunnet (Closed Won)
+        T->>P: Signert kontrakt oversendes til partner
         T->>K: Fakturering via Telenor & Tjenesteproduksjon via Partner
-    else Salg Tapt (Lost)
-        T->>P: Lost Review & Tapsanalyse (Lessons Learned)
+    else Salg Tapt (Closed Lost)
+        T->>P: Felles Lost Review, analyse av årsak & Lessons Learned
     end
 ```
 
 ---
 
-## 2. Trinn-for-Trinn Salesforce Klikkvei & Samhandlingsflyt
+## 2. Salesforce Salgssteg & Trinn-for-Trinn Klikkvei
 
-### Steg 1: Igangsette kunde-/behovsavklaring
-* **Hovedansvar**: Telenor Salg
-* **Salesforce Salgssteg**: `Suspecting`
+| Steg | Salesforce Salgssteg | Hovedansvar | Nøkkelhandlinger |
+| :--- | :--- | :--- | :--- |
+| **Steg 1** | `Suspecting` | Telenor / Partner | Opprette Opportunity & registrere Revenue-verdi |
+| **Steg 2** | `Prospecting` | Telenor / Partner | Avklare beslutningstakere, oppdatere Opportunity Team & booke verdimøte |
+| **Steg 3** | `Kvalifisering / Utarbeide tilbud` | Partner | Utarbeide løsningsarkitektur, ROI og FPP Tjenesteavtale |
+| **Steg 4** | `Inngå Kontrakt` (Quote) | Telenor | Booke Quote i Salesforce m/FPP-produkt og B2B-avtaleavsjekk |
+| **Steg 5** | `Inngå Kontrakt` (Signering) | Telenor | Opprette Contract, laste opp under Documents & e-signering |
+| **Steg 6** | `Closed` | Telenor / Partner | Produksjonssetting (Won) eller Lost Review (Lost) |
+
+---
+
+### Detaljert Klikkvei per Steg:
+
+#### Steg 1: Igangsette kunde-/behovsavklaring (`Suspecting`)
+* **Ansvarlig**: Telenor / Partner
 * **Klikkvei i Salesforce**:
   1. **Velg Kunde**: Søk opp og registrer kunden.
-  2. **Velg Opportunity**: Legg inn beskrivende Opportunity-navn.
-  3. **Velg Close Date**: Sett forventet lukkedato.
-  4. **Velg salgssteg**: Velg `Suspecting`.
-  5. **Velg Opportunity kilde**: Registrer kilde (f.eks. Anbud, Innkommende, Kampanje).
-  6. **Velg probability**: Sett estimert sannsynlighet.
-  7. **Status**: Kunde-/behovsanalyse er igangsatt.
+  2. **Velg Opportunity**: Legg inn beskrivende opportunity-navn.
+  3. **Velg Close date**: Sett forventet lukkedato.
+  4. **Velg salgssteg**: Sett til `Suspecting`.
+  5. **Velg Opportunity kilde**: Registrer kilde (f.eks. Innkommende, Anbud, Kampanje).
+  6. **Velg probability**: Angi estimert sannsynlighet.
+  7. **Kundebehovsanalyse**: Igangsatt.
+  8. **Revenue-krav**: *Må quote inn kundeverdier i Revenue – kroner*.
 
 ---
 
-### Steg 2: Lead sendes til partner
-* **Hovedansvar**: Telenor Salg & Partner
-* **Salesforce Salgssteg**: `Kvalifisering`
-* **Handlinger**:
+#### Steg 2: Lead sendes til partner (`Prospecting`)
+* **Ansvarlig**: Telenor / Partner
+* **Handlinger i Salesforce & Samhandling**:
   1. **Telenor**: Avklarer beslutningstakere hos kunden.
-  2. **Telenor**: Dokumenterer kundens *pains* og behov i Salesforce.
-  3. **Telenor**: Oppdaterer Opportunity Team og inviterer inn partner til behovs- og løsningsavklaring.
-  4. **Partner**: Mottar lead og igangsetter grundig behovsavklaring sammen med kunden.
+  2. **Telenor**: Dokumenterer pains og forretningsbehov i Salesforce.
+  3. **Telenor**: Inviterer inn sertifisert partner til behovs- og løsningsavklaring.
+  4. **Telenor**: Oppdaterer **Opportunity Team** i Salesforce med partnerressurser.
+  5. **Partner**: Mottar lead og igangsetter aktiv dialog med kunden.
+  6. **Partner/Telenor**: Samkjører verdihypoteser og booker formelt verdimøte.
 
 ---
 
-### Steg 3: Partner utarbeider verdiforslag
-* **Hovedansvar**: Partner (Løsningsrådgiver)
-* **Salesforce Salgssteg**: `Løsningsdesign / Verdiforslag`
+#### Steg 3: Partner utarbeider verdiforslag (`Kvalifisering / Utarbeide tilbud`)
+* **Ansvarlig**: Partner (Løsningsrådgiver)
 * **Handlinger**:
-  1. **Partner**: Utarbeider løsningsforslag og forankrer dette hos kunden.
-  2. **Partner**: Utarbeider prisforslag som kunden bekrefter.
-  3. **Partner**: Fyller ut og oppdaterer **FPP Telenor Tjenesteavtale** med endelig pris- og løsningsforslag.
-  4. **Partner**: Oversender oppdatert FPP Telenor Tjenesteavtale til Telenor kundeansvarlig (KAM).
+  1. **Partner**: Kartlegger tekniske krav og suksesskriterier via workshops/intervjuer.
+  2. **Partner**: Visualiserer foreslått løsning (arkitektur, komponenter, integrasjoner, ansvarsforhold).
+  3. **Partner**: Utarbeider løsnings- og prisforslag som kunden bekrefter.
+  4. **Partner**: Fyller ut og oppdaterer **FPP Telenor Tjenesteavtale** med priser og spesifikasjoner.
+  5. **Partner**: Oversender ferdig oppdatert FPP Tjenesteavtale til Telenor KAM.
 
 ---
 
-### Steg 4: Booke salget i Salesforce
-* **Hovedansvar**: Telenor Salg
-* **Salesforce Salgssteg**: `Utarbeide tilbud / Quote`
+#### Steg 4: Booke salget i Salesforce (`Inngå Kontrakt / Quote`)
+* **Ansvarlig**: Telenor Salg
 * **Klikkvei i Salesforce**:
   1. **Velg Quote**: Opprett ny Quote og legg inn Quote-navn.
-  2. **Velg**: Sett `Pricing approval not Required` (ved standard FPP-satser).
-  3. **Lagre Quoten**.
-  4. **Gå inn på Quoten**.
-  5. **Add produkt**: Søk etter `FPP`.
-  6. **Velg produkt**: Velg ønsket **FPP partner**.
-  7. **Trykk Next**.
-  8. **Legg inn avtalte priser, antall, type mm.**.
-  9. **Fullfør**: Salget er nå booket i Salesforce.
+  2. **Velg**: Sett `Pricing approval not Required` (for standard FPP-satser).
+  3. **Lagre Quoten** og åpne den.
+  4. **Add produkt**: Søk etter `FPP`.
+  5. **Velg produkt**: Velg ønsket **FPP Partner**.
+  6. **Trykk Next**: Legg inn avtalte priser, antall, type mm.
+  7. **Fullfør**: Salget er booket.
+  8. **B2B-krav**: **Dersom kundespesifikk avtale = JA &rarr; Signer Back-to-Back B2B-avtale med partner.**
+  9. **Sende tilbud**: Formell oversendelse til kunden med kopi til KAM & innhente muntlig aksept.
 
 ---
 
-### Steg 5: Oppdater kontrakt og få den signert
-* **Hovedansvar**: Telenor Salg
-* **Salesforce Salgssteg**: `Inngå kontrakt / Signering`
+#### Steg 5: Oppdater kontrakt og få den signert (`Inngå Kontrakt / Signering`)
+* **Ansvarlig**: Telenor Salg
 * **Klikkvei i Salesforce**:
   1. **Velg New Contract**: Opprett ny kontrakt under kunden.
-  2. **Velg kontrakt startdato**: Sett startdato.
-  3. **Velg kontrakt sluttdato**: Sett utløpsdato.
-  4. **Agreement Between**: Sett `Kunde og Telenor`.
-  5. **Type**: Velg `Kundekontrakt`.
-  6. **Gå inn på Contracts og kontrakten**.
-  7. **Last opp dokument**: Last opp **FPP Telenor Tjenesteavtale** under fanen `Documents`.
-  8. **Start digital signature**: Start digital signeringsprosess.
-  9. **Velg internal signerer med mandat**: Telenors signaturberettigede.
-  10. **Velg external signerer**: Kundens signaturberettigede kontaktperson.
-  11. **Submit**: Kontrakten sendes automatisk til digital signering.
-  12. **Signert avtale arkiveres** i Salesforce når signering er fullført.
+  2. **Datoer**: Sett start- og sluttdato for kontrakten.
+  3. **Agreement Between**: Sett `Kunde og Telenor`.
+  4. **Type**: Velg `Kundekontrakt`.
+  5. **Gå inn på Contracts og kontrakten**.
+  6. **Last opp dokument**: Last opp **FPP Telenor Tjenesteavtale** under fanen `Documents`.
+  7. **Start digital signature**: Start e-signeringsflyt (BankID / DocuSign).
+  8. **Velg internal signerer med mandat**: Telenors signaturberettigede.
+  9. **Velg external signerer**: Kundens signaturberettigede kontaktperson.
+  10. **Submit**: Kontrakten sendes automatisk til e-signering.
+  11. **Kvalitetssikring**: Verifisere gyldig digital signatur fra begge parter.
 
 ---
 
-### Steg 6: Igangsett produksjonssetting / tapsanalyse
-* **Hovedansvar**: Telenor Salg & Partner
-* **Salesforce Salgssteg**: `Closed Won` / `Closed Lost`
+#### Steg 6: Igangsett produksjonssetting / tapsanalyse (`Closed`)
+* **Ansvarlig**: Telenor Salg & Partner
 * **Handlinger**:
-  * **Ved Vunnet Salg (Produksjonssetting)**:
-    1. Signert kontrakt oversendes til partner for oppstart.
+  * **Ved Vunnet (Closed Won - Produksjonssetting)**:
+    1. Signert kontrakt oversendes partner for teknisk oppstart.
     2. Fakturering igangsettes via Telenor.
     3. Tjenesteproduksjon og teknisk oppsett igangsettes via partner.
-  * **Ved Tapt Salg (Tapsanalyse)**:
+  * **Ved Tapt (Closed Lost - Tapsanalyse)**:
     1. Opportunity settes til `Closed Lost`.
-    2. Gjennomføre felles tapsanalyse (*Lost Review*) mellom Partner og Telenor.
-    3. Dokumentere årsak til tapt mulighet og registrere *Lessons Learned*.
+    2. Gjennomføre felles *Lost Review* mellom Partner og Telenor.
+    3. Dokumentere årsak til tapt salgsmulighet og registrere *Lessons Learned*.
 
 ---
 
-## 3. Salgsveiledning & Kritiske Spørsmål (Guidance)
+## 3. Omfattende Salgsveiledning & Kritiske Spørsmål (Guidance)
 
-For å sikre høy kvalitet i alle faser stilles følgende kontrollspørsmål for hvert trinn:
+Veiledningsmatrisen gir selgere og løsningsrådgivere konkrete faglige sjekkpunkter for hver fase:
 
-| Steg | Veiledningsspørsmål & Sjekkpunkter (Guidance) |
-| :--- | :--- |
-| **Steg 1: Behovsavklaring** | • Kartlegge as-is på eksisterende kunder?<br>• Identifisere relevante stakeholdere?<br>• Start arbeidet med verdiforslag gjennom hypoteser?<br>• Gjennomfør første dialog med kunden og planlegg for førstegangsmøte. |
-| **Steg 2: Lead til Partner** | • Oppnå dialog med stakeholdere og beslutningstakere?<br>• Kartlegge pains/smertepunkter grundig.<br>• Inviter partner til å igangsette behovsavklaring.<br>• Aligne kundens kjøpsprosess med Telenor salgsprosess.<br>• Oppdater Opportunity Team i Salesforce. |
-| **Steg 3: Verdiforslag** | • Sparr med partner om løsningsarkitektur.<br>• Utarbeide verdiforslag tilpasset kunden, bekrefte pains/behov og relevans for beslutningstakere.<br>• Utarbeide løsningsskisser (*high-level design*) der det er relevant. |
-| **Steg 4: Booke Salget** | • Sikre enighet med kunde om løsningsdesign og pris.<br>• Utarbeide og sende ut tilbud til kunde via standard Tilbudsmal.<br>• Sign-off skal være komplett før tilbud sendes kunde.<br>• Presentere tilbud til beslutningstaker og relevante stakeholdere.<br>• Innhente muntlig aksept fra beslutningstaker. |
-| **Steg 5: Signering** | • Booke salgspris korrekt i Salesforce.<br>• Signere kontrakt digitalt via godkjent signeringsflyt.<br>• Verifisere opplastet FPP Tjenesteavtale under Documents. |
-| **Steg 6: Leveranse / Tapsanalyse** | • Igangsette tjenesteproduksjon via partner og fakturering via Telenor.<br>• Gjennomføre felles *Lost Review* ved tapt sak for kontinuerlig forbedring. |
+### Steg 1: Suspecting
+* **a. Kartlegge volum og historikk**: Innhente data på eksisterende forbruk, lisenser og trafikk.
+* **b. Identifisere relevante stakeholdere**: Kartlegge beslutningstakere (IT-sjef, innkjøpsleder, daglig leder) og sentrale påvirkere.
+* **c. Starte arbeidet med verdiforslag gjennom hypoteser**: Formulere hypoteser om forretningsverdi, effektivisering og besparelser (VBS).
+* **d. Gjennomføre første dialog med kunden og planlegge førstegangsmøte**: Gjennomføre introsamtale og koble på sertifisert partner.
 
 ---
 
-## 4. VBS (Verdibasert Salg) Faser & KPI-er
+### Steg 2: Prospecting
+* **a. Etablere dialog med interessenter og beslutningstakere**: Sikre tilgang til personer som påvirker eller beslutter kjøpet.
+* **b. Kartlegge kundens utfordringer (pains)**: Identifisere forretningsutfordringer, flaskehalser, behov og ønskede gevinster.
+* **c. Invitere partner til behovsavklaring**: Engasjere sertifisert partner for å bidra i kartlegging og teknisk løsningsdialog.
+* **d. Tilpasse kundens kjøpsprosess til Telenors salgsprosess**: Sikre felles forståelse av beslutningspunkter, tidslinje og neste steg.
+* **e. Oppdatere Opportunity Team i Salesforce**: Registrere relevante ressurser og sikre riktig eierskap til salgsmuligheten.
+* **f. Koble på sertifisert partner og løsningsrådgiver**: Tildele saken til fagressurser med riktig kompetanse og erfaring.
+* **g. Samkjøre verdihypoteser**: Avstemme kundens utfordringer, forventede gevinster og forberede agenda for verdimøtet.
+* **h. Booke formelt verdimøte**: Bekrefte møtetidspunkt med kundens nøkkelpersoner og relevante deltakere.
+
+---
+
+### Steg 3: Kvalifisering / Utarbeide tilbud
+* **a. Sikre felles forståelse av kundebehov og muligheter**: Samarbeide med partner om salgsstrategi, kundetilnærming og verdiforslag.
+* **b. Knytte løsning til kundens behov og forretningsmål**: Utvikle et kundetilpasset verdiforslag som adresserer kundens pains, behov og gevinster for beslutningstakere.
+* **c. Visualisere foreslått løsning**: Beskrive løsningsarkitektur, tjenestekomponenter, integrasjoner og ansvarsforhold på et overordnet nivå (high-level design).
+* **d. Kartlegge kundens behov og krav**: Gjennomføre workshops, intervjuer eller kundemøter for å identifisere forretningsmessige utfordringer, tekniske krav og suksesskriterier.
+* **e. Synliggjøre kundeverdi**: Presentere løsningsforslag, ROI-beregninger, gevinster og relevante kundecaser tilpasset kundens situasjon.
+* **f. Utarbeide konkurransedyktig tilbud**: Sammenstille felles løsningsforslag, prisstruktur, tjenestebeskrivelser og øvrig dokumentasjon.
+
+---
+
+### Steg 4: Inngå Kontrakt (Quote & Tilbud)
+* **a. Sammenstille tilbudsunderlag**: Partner ferdigstiller løsningsbeskrivelse, avtaledokument og priser.
+* **b. Oppdatere Quote i Salesforce**: Telenor legger inn produktlinjer og avtaleverdi.
+* **c. Juridisk avsjekk**: Sikre Back-to-back B2B-avtale og direkte DPA mellom partner og kunde.
+* **d. Sende tilbud til kunden**: Formell oversendelse med kopi til Telenor KAM.
+* **e. Muntlig aksept fra beslutningstaker**: Verifisere aksept før kontraktsutstedelse.
+* **f. Signer B2B-avtale med partner**: Påkrevd forutsatt at det foreligger kundespesifikke krav/avvik.
+
+---
+
+### Steg 5: Inngå Kontrakt (Signering)
+* **a. Sluttforhandlinger**: Avklare eventuelle detaljer, leveringsfrister og SLA.
+* **b. Elektronisk signering**: Sende avtaledokument til e-signering (BankID / DocuSign).
+* **c. Kvalitetssikre signert avtale**: Verifisere gyldig signatur fra begge parter.
+
+---
+
+### Steg 6: Closed (Produksjon / Tapsanalyse)
+* **a. Igangsette tjenesteproduksjon via partner og fakturering via Telenor**.
+* **b. Lost review Partner og Telenor**: Felles gjennomgang og analyse ved tapt mulighet for kontinuerlig forbedring (*Lessons Learned*).
+
+---
+
+## 4. B2B Back-to-Back Avtale & Juridisk Kvalitetssikring
+
+Når en kundeavtale inneholder **kundespesifikke krav, særskilte SLA-er, tilpasninger eller avvik fra standardvilkår**, utløses et formelt krav:
+
+> [!IMPORTANT]
+> **Trigger for B2B-avtale:**
+> `Kundespesifikk avtale = JA` &rarr; Det **MÅ** etableres og signeres en **Back-to-Back B2B-avtale mellom Telenor og Partner** for å speile kundekravene juridisk og operativt.
+
+### 4-Trinns Juridisk Sikring:
+1. **Back-to-Back Avtale**: Speiler samtlige kundekrav overfor partneren slik at Telenor ikke sitter med udekket risiko.
+2. **Direkte Databehandleravtale (DPA)**: Inngås direkte mellom partner og kunde for å sikre at Telenor ikke har behandleransvar i systemer Telenor ikke drifter eller har innsyn i.
+3. **Prisreguleringsklausul (KPI)**: Sikrer årlig indeksregulering av underleverandørs priser.
+4. **Varekostnadsklausul**: Sikrer adgang til å videreføre dokumenterte økte tredjepartskostnader.
+
+---
+
+## 5. VBS (Verdibasert Salg) Faser & KPI-er
 
 | VBS Faser | Formål | Leveranse |
 | :--- | :--- | :--- |
-| **1. PROSPECTING** | Identifisere & prioritere | Kartlegge marked og kvalifisere leads. |
+| **1. PROSPECTING** | Identifisere & prioritere | Kartlegge marked, historikk og kvalifisere leads. |
 | **2. INTROSAMTALE** | Åpne døren med relevans | Presentere hypoteser og vekke interesse. |
 | **3. SALGSMØTE** | Bygg tillit & forstå kunden | Dybdekartlegging av kundens reelle behov. |
-| **4. VERDIBUDSKAP** | Koble løsning til mål | Skreddersy forretningscase og ROI-modell. |
-| **5. TILBUD** | Konkretisering av verdier | Utarbeide FPP-tjenesteavtale, prisoppsett og avtaledokument. |
-| **6. CLOSING** | Sikre salg & realisere verdi | Digital signering, produksjonssetting og gevinstrealisering. |
+| **4. VERDIBUDSKAP** | Koble løsning til mål | Skreddersy forretningscase, ROI og arkitektur. |
+| **5. TILBUD** | Konkretisering av verdier | Utarbeide FPP-tjenesteavtale, priser og B2B-avsjekk. |
+| **6. CLOSING** | Sikre salg & realisere verdi | E-signering (BankID), produksjonssetting og fakturering. |
 
-### Nøkkel-KPI-er:
+### 10 Nøkkel-KPI-er:
 1. **Antall VBS introsamtaler**
 2. **Hit rate (samtale til møte)**
 3. **Antall bookede VBS møter**
@@ -190,34 +266,36 @@ For å sikre høy kvalitet i alle faser stilles følgende kontrollspørsmål for
 
 ---
 
-## 5. Oppdaterte Sjekklister for Roller
+## 6. Oppdaterte Sjekklister for Roller
 
 ### Sjekkliste for Telenor Selger / KAM
-- [ ] Opprettet Opportunity med kilde, close date og salgssteg *Suspecting*.
-- [ ] Avklart beslutningstakere og dokumentert pains i Salesforce.
-- [ ] Oppdatert Opportunity Team og invitert inn sertifisert FPP Partner.
-- [ ] Opprettet Quote (`Pricing approval not Required`) og lagt inn FPP-produkt og partner.
-- [ ] Verifisert avtaletype og eventuelt behov for Back-to-back-avtale.
-- [ ] Opprettet *New Contract* (`Agreement Between Kunde og Telenor`, Type: `Kundekontrakt`).
-- [ ] Lastet opp ferdig utfylt **FPP Telenor Tjenesteavtale** under *Documents*.
-- [ ] Sendt til digital signering med intern og ekstern signatør.
-- [ ] Distribuert signert avtale til partner og igangsatt fakturering.
-- [ ] Ved tapt avtale: Gjennomført felles *Lost Review* og dokumentert årsak.
+- [ ] **Steg 1**: Opprettet Opportunity med kilde, close date, salgssteg *Suspecting* og lagt inn *Revenue - kroner*.
+- [ ] **Steg 1**: Kartlagt volum, historikk og identifisert relevante stakeholdere (IT, innkjøp, ledelse).
+- [ ] **Steg 2**: Avklart beslutningstakere og dokumentert pains i Salesforce.
+- [ ] **Steg 2**: Oppdatert Opportunity Team i Salesforce og invitert inn sertifisert FPP Partner.
+- [ ] **Steg 4**: Opprettet Quote (`Pricing approval not Required`) og lagt inn produkt *FPP*, partner og avtalte priser.
+- [ ] **Steg 4**: Verifisert om avtalen er kundespesifikk – hvis ja: signert **Back-to-Back B2B-avtale** med partner.
+- [ ] **Steg 4**: Innhentet muntlig aksept fra beslutningstaker.
+- [ ] **Steg 5**: Opprettet *New Contract* (`Agreement Between Kunde og Telenor`, Type: `Kundekontrakt`).
+- [ ] **Steg 5**: Lastet opp ferdig utfylt **FPP Telenor Tjenesteavtale** under fanen *Documents*.
+- [ ] **Steg 5**: Startet digital signering med intern mandatbærer og ekstern signatør (BankID/DocuSign).
+- [ ] **Steg 6**: Oversendt signert kontrakt til partner og igangsatt fakturering (el. gjennomført *Lost Review*).
 
 ### Sjekkliste for Partner
-- [ ] Mottatt lead og igangsatt behovsavklaring med kunden.
-- [ ] Gjennomført kvalifiseringsmøte og avdekket tekniske/operative behov.
-- [ ] Utarbeidet skreddersydde verdislides og high-level løsningsskisse.
-- [ ] Fått kundens bekreftelse på løsningsdesign og prisforslag.
-- [ ] Fylt ut **FPP Telenor Tjenesteavtale** med korrekte priser og spesifikasjoner.
-- [ ] Oversendt komplett FPP Tjenesteavtale til Telenor KAM.
-- [ ] Sikret direkte Databehandleravtale (DPA) mellom Partner og Kunde.
-- [ ] Etablert Back-to-back-avtale mot Telenor for speiling av kundekrav.
-- [ ] Mottatt signert avtale fra Telenor og igangsatt tjenesteproduksjon.
+- [ ] **Steg 2**: Mottatt lead og igangsatt aktiv behovsavklaring med kunden.
+- [ ] **Steg 2**: Samkjørt verdihypoteser og booket formelt verdimøte.
+- [ ] **Steg 3**: Gjennomført workshops/intervjuer og kartlagt tekniske krav og suksesskriterier.
+- [ ] **Steg 3**: Visualisert foreslått løsning (arkitektur, integrasjoner, ansvarsforhold) og presentert ROI.
+- [ ] **Steg 3**: Fått kundens bekreftelse på løsningsdesign og prisforslag.
+- [ ] **Steg 3**: Fylt ut **FPP Telenor Tjenesteavtale** med korrekte priser og spesifikasjoner.
+- [ ] **Steg 3**: Oversendt komplett FPP Tjenesteavtale til Telenor KAM.
+- [ ] **Steg 4**: Etablert og signert Back-to-Back B2B-avtale mot Telenor ved kundespesifikke krav.
+- [ ] **Steg 4**: Etablert direkte Databehandleravtale (DPA) mellom Partner og Kunde.
+- [ ] **Steg 6**: Mottatt signert avtale fra Telenor og igangsatt teknisk produksjon og leveranse.
 
 ---
 
-## 6. Kundespesifikke Avtaler & Standardklausuler
+## 7. Kundespesifikke Avtaler & Standardklausuler
 
 ### Klausul 1: Årlig Prisjustering (KPI)
 ```text
@@ -240,7 +318,7 @@ Databehandleravtale (DPA):
 Det skal inngås en direkte databehandleravtale (DPA) mellom partner og kunde. Dette sikrer at Telenor ikke påtar seg ansvar for behandling av person- og kundedata i tjenester der Telenor ikke har innsyn i dataene.
 ```
 
-### Klausul 4: Back-to-back-avtale (Speile Kundekrav)
+### Klausul 4: Back-to-Back B2B-avtale (Speile Kundekrav)
 ```text
 Back-to-back-avtale:
 Det skal etableres en back-to-back-avtale mellom Telenor og partneren for den aktuelle tjenesten. Dette sikrer at alle kundespesifikke krav videreføres og etterleves av partneren.
@@ -248,7 +326,7 @@ Det skal etableres en back-to-back-avtale mellom Telenor og partneren for den ak
 
 ---
 
-## 7. Referanser & Salesforce Eksempler
+## 8. Referanser & Salesforce Eksempler
 
 Reelle referanse-eksempler i Salesforce Lightning:
 * **Eksempel 1**: `https://telenor.lightning.force.com/lightning/r/Opportunity/006So00000mRqgRIAS/view`
