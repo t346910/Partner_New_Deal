@@ -1,132 +1,1254 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" class="h-full bg-slate-900 text-slate-100">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner New Deal - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telenor & Partner | Salgsprosessen i Salesforce</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.8);
+      border-radius: 9999px;
+    }
+  </style>
 </head>
-<body>
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">🤝</span>
-                <h1>Partner New Deal</h1>
+<body class="min-h-full flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- TOP HEADER / NAV -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-0.5 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+              <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
             </div>
-            <nav class="nav-links">
-                <button id="btn-show-deals" class="nav-btn active">Avtaler</button>
-                <button id="btn-show-partners" class="nav-btn">Partnere</button>
-                <button id="btn-new-deal" class="btn-primary">+ Ny avtale</button>
-            </nav>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Telenor Partner</span>
+              <span class="px-2 py-0.5 text-xs font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full">FPP & B2B</span>
+            </div>
+            <p class="text-xs text-slate-400">Salesforce Lightning Salgsprosess & Samspill</p>
+          </div>
         </div>
-    </header>
 
-    <main class="main-container">
-        <!-- Stats bar -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <h3>Totalt antall avtaler</h3>
-                <p id="stat-total-deals" class="stat-value">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Under forhandling</h3>
-                <p id="stat-pending-deals" class="stat-value">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Fullførte avtaler</h3>
-                <p id="stat-completed-deals" class="stat-value">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total verdi</h3>
-                <p id="stat-total-value" class="stat-value">0 kr</p>
-            </div>
-        </section>
+        <!-- Navigation Pills -->
+        <nav class="hidden md:flex items-center space-x-1 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800">
+          <button onclick="switchTab('flow')" id="tab-btn-flow" class="tab-btn active px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Prosessflyt (6 Steg)</span>
+          </button>
+          <button onclick="switchTab('docs')" id="tab-btn-docs" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-200 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span>Dokumentasjon & B2B</span>
+          </button>
+          <button onclick="switchTab('checklists')" id="tab-btn-checklists" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-200 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Sjekklister & Guidance</span>
+            <span id="checklist-badge" class="px-1.5 py-0.5 text-[10px] rounded-full bg-cyan-500/20 text-cyan-300">0/21</span>
+          </button>
+          <button onclick="switchTab('templates')" id="tab-btn-templates" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-200 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Avtalemaler & Klausuler</span>
+          </button>
+          <button onclick="switchTab('kpis')" id="tab-btn-kpis" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-200 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>KPI & Kalkulator</span>
+          </button>
+        </nav>
 
-        <!-- Search and Filter -->
-        <section class="controls-section">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Søk etter partner, avtale eller kontaktperson...">
-            </div>
-            <div class="filter-box">
-                <select id="status-filter">
-                    <option value="all">Alle statuser</option>
-                    <option value="Utkast">Utkast</option>
-                    <option value="Forhandling">Forhandling</option>
-                    <option value="Signert">Signert</option>
-                    <option value="Avvist">Avvist</option>
-                </select>
-            </div>
-        </section>
+        <!-- Quick Action / Status -->
+        <div class="flex items-center space-x-3">
+          <button onclick="exportProcessSummary()" class="hidden sm:inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Eksporter Prosess (.md)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- Deals Table View -->
-        <section id="deals-section" class="content-section">
-            <div class="section-header">
-                <h2>Oversikt over avtaler</h2>
-            </div>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Tittel</th>
-                            <th>Partner</th>
-                            <th>Verdi (NOK)</th>
-                            <th>Status</th>
-                            <th>Opprettet</th>
-                            <th>Handlinger</th>
-                        </tr>
-                    </thead>
-                    <tbody id="deals-table-body">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-        <!-- Modal for New Deal -->
-        <div id="deal-modal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="modal-title">Registrer ny partneravtale</h2>
-                    <button id="modal-close" class="close-btn">&times;</button>
+    <!-- ========================================================================= -->
+    <!-- TAB 1: INTERAKTIV PROSESSFLYT & 6 STEG -->
+    <!-- ========================================================================= -->
+    <section id="tab-flow" class="tab-content space-y-6">
+      
+      <!-- Top banner / Mode switcher -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40 p-6 rounded-2xl border border-slate-800/80 shadow-xl flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Salesforce Lightning Matrise</span>
+            <span class="text-xs text-slate-400">Klikk på et steg for full klikkvei, B2B-regler og Guidance</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white tracking-tight">6-Trinns Partner Salgsprosess (inkl. B2B)</h2>
+          <p class="text-sm text-slate-400 max-w-2xl">
+            Sømløst samspill mellom Telenor Kundeansvarlig (KAM/Selger) og Fast Partner Pris (FPP) partnere fra Suspecting til digital signering og produksjonssetting.
+          </p>
+        </div>
+
+        <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 self-start lg:self-auto">
+          <button onclick="setViewMode('swimlane')" id="view-btn-swimlane" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-cyan-300 shadow transition">
+            6-Stegs Svømmebaner
+          </button>
+          <button onclick="setViewMode('vbs')" id="view-btn-vbs" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+            VBS Salgstrakt
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW A: 6-STEP SWIMLANE VIEW -->
+      <div id="swimlane-container" class="space-y-4">
+        
+        <!-- Phase headers bar (6 columns) -->
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 sm:gap-3">
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 block">Steg 1 (Suspecting)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Behovsavklaring</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 block">Steg 2 (Prospecting)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Lead til Partner</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block">Steg 3 (Kvalifisering)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Verdiforslag</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400 block">Steg 4 (Quote & B2B)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Booke Salget</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Steg 5 (Kontrakt)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Digital Signering</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">Steg 6 (Closed)</span>
+            <span class="text-[11px] sm:text-xs font-semibold text-white">Produksjon / Tapt</span>
+          </div>
+        </div>
+
+        <!-- Swimlane Rows Grid -->
+        <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 lg:p-6 space-y-6">
+          
+          <!-- Lane 1: Telenor Salg -->
+          <div class="space-y-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-300">Telenor Salg (KAM / Selger)</h3>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-2 sm:gap-3">
+              <!-- Step 1 -->
+              <div onclick="selectStep(1)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-cyan-500/30 hover:border-cyan-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300">SF Opp</span>
+                  <span class="text-xs text-slate-500 group-hover:text-cyan-400">#1</span>
                 </div>
-                <form id="deal-form">
-                    <div class="form-group">
-                        <label for="deal-title">Avtaletittel *</label>
-                        <input type="text" id="deal-title" required placeholder="F.eks. Årsavtale Integrasjon 2026">
-                    </div>
-                    <div class="form-group">
-                        <label for="deal-partner">Partnernavn *</label>
-                        <input type="text" id="deal-partner" required placeholder="F.eks. Acro Solutions AS">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="deal-value">Verdi (NOK) *</label>
-                            <input type="number" id="deal-value" min="0" required placeholder="F.eks. 250000">
-                        </div>
-                        <div class="form-group">
-                            <label for="deal-status">Status</label>
-                            <select id="deal-status">
-                                <option value="Utkast">Utkast</option>
-                                <option value="Forhandling" selected>Forhandling</option>
-                                <option value="Signert">Signert</option>
-                                <option value="Avvist">Avvist</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="deal-notes">Notater / Beskrivelse</label>
-                        <textarea id="deal-notes" rows="3" placeholder="Detaljer om leveranse, vilkår, kontaktinfo..."></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" id="modal-cancel" class="btn-secondary">Avbryt</button>
-                        <button type="submit" class="btn-primary">Lagre avtale</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </main>
+                <h4 class="text-xs font-bold text-white group-hover:text-cyan-300 mb-1">Opprette Opportunity</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Kunde, Close Date, Kilde & Revenue-kroner.</p>
+              </div>
 
-    <script src="app.js"></script>
+              <!-- Step 2 -->
+              <div onclick="selectStep(2)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-blue-500/30 hover:border-blue-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300">Prospecting</span>
+                  <span class="text-xs text-slate-500 group-hover:text-blue-400">#2</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-blue-300 mb-1">Avklare & Invitere Partner</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Pains, team, samkjøre verdihypoteser.</p>
+              </div>
+
+              <!-- Step 3 (Partner working) -->
+              <div class="p-3.5 rounded-xl bg-slate-950/40 border border-dashed border-slate-800 flex items-center justify-center text-center">
+                <span class="text-[10px] text-slate-600 italic">Sparring m/partner</span>
+              </div>
+
+              <!-- Step 4 -->
+              <div onclick="selectStep(4)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-purple-500/30 hover:border-purple-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300">SF Quote</span>
+                  <span class="text-xs text-slate-500 group-hover:text-purple-400">#4</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-purple-300 mb-1">Booke Salget (B2B Sjekk)</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Quote, FPP partner + signere B2B-avtale ved kundekrav.</p>
+              </div>
+
+              <!-- Step 5 -->
+              <div onclick="selectStep(5)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-amber-500/30 hover:border-amber-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300">SF Contract</span>
+                  <span class="text-xs text-slate-500 group-hover:text-amber-400">#5</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-amber-300 mb-1">Digital Signering</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">BankID/DocuSign & opplasting under Documents.</p>
+              </div>
+
+              <!-- Step 6 -->
+              <div onclick="selectStep(6)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-emerald-500/30 hover:border-emerald-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300">Closing</span>
+                  <span class="text-xs text-slate-500 group-hover:text-emerald-400">#6</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-emerald-300 mb-1">Fakturering / Lost Review</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Signert avtale til partner / Tapsanalyse.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="border-t border-slate-800"></div>
+
+          <!-- Lane 2: Partner -->
+          <div class="space-y-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-blue-300">Partner (Løsningsrådgiver)</h3>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-2 sm:gap-3">
+              <!-- Step 1 blank -->
+              <div class="p-3.5 rounded-xl bg-slate-950/40 border border-dashed border-slate-800 flex items-center justify-center text-center">
+                <span class="text-[10px] text-slate-600 italic">Avventer Opportunity</span>
+              </div>
+
+              <!-- Step 2: Partner dialog -->
+              <div onclick="selectStep(2)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-blue-500/30 hover:border-blue-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300">Lead Mottatt</span>
+                  <span class="text-xs text-slate-500 group-hover:text-blue-400">#2</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-blue-300 mb-1">Igangsette Behovsavklaring</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Dialog, verdihypoteser & booke verdimøte.</p>
+              </div>
+
+              <!-- Step 3: Partner Verdiforslag & FPP Avtale -->
+              <div onclick="selectStep(3)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-indigo-500/30 hover:border-indigo-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-300">FPP Avtale</span>
+                  <span class="text-xs text-slate-500 group-hover:text-indigo-400">#3</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-indigo-300 mb-1">Utarbeide Verdiforslag</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Workshops, arkitekturskisse & FPP Tjenesteavtale.</p>
+              </div>
+
+              <!-- Step 4: B2B Avtale -->
+              <div onclick="selectStep(4)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-purple-500/30 hover:border-purple-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300">B2B Avtale</span>
+                  <span class="text-xs text-slate-500 group-hover:text-purple-400">#4</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-purple-300 mb-1">Signere Back-to-Back B2B</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Signere B2B-avtale ved kundespesifikke krav.</p>
+              </div>
+
+              <!-- Step 5 blank -->
+              <div class="p-3.5 rounded-xl bg-slate-950/40 border border-dashed border-slate-800 flex items-center justify-center text-center">
+                <span class="text-[10px] text-slate-600 italic">Digital signering</span>
+              </div>
+
+              <!-- Step 6: Produksjonssetting -->
+              <div onclick="selectStep(6)" class="step-card cursor-pointer p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-emerald-500/30 hover:border-emerald-400 transition-all duration-200 group relative">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300">Produksjon</span>
+                  <span class="text-xs text-slate-500 group-hover:text-emerald-400">#6</span>
+                </div>
+                <h4 class="text-xs font-bold text-white group-hover:text-emerald-300 mb-1">Tjenesteproduksjon</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-2">Teknisk aktivering & gevinstrealisering.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW B: VBS FUNNEL VIEW (Hidden by default) -->
+      <div id="vbs-container" class="hidden space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-3">
+          
+          <div onclick="selectVbsStep(1)" class="cursor-pointer bg-slate-900/90 border border-cyan-500/30 hover:border-cyan-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">Trinn 1</span>
+            <h4 class="text-sm font-bold text-white">Prospecting</h4>
+            <p class="text-xs text-slate-400">Identifisere og prioritere forretningsmuligheter.</p>
+          </div>
+
+          <div onclick="selectVbsStep(2)" class="cursor-pointer bg-slate-900/90 border border-blue-500/30 hover:border-blue-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400">Trinn 2</span>
+            <h4 class="text-sm font-bold text-white">Introsamtale</h4>
+            <p class="text-xs text-slate-400">Åpne døren med relevant innsikt og hypotese.</p>
+          </div>
+
+          <div onclick="selectVbsStep(3)" class="cursor-pointer bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Trinn 3</span>
+            <h4 class="text-sm font-bold text-white">Salgsmøte</h4>
+            <p class="text-xs text-slate-400">Bygg tillit og forstå kunden i dybden.</p>
+          </div>
+
+          <div onclick="selectVbsStep(4)" class="cursor-pointer bg-slate-900/90 border border-purple-500/30 hover:border-purple-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-400">Trinn 4</span>
+            <h4 class="text-sm font-bold text-white">Verdibudskap</h4>
+            <p class="text-xs text-slate-400">Koble løsning direkte til kundens forretningsmål.</p>
+          </div>
+
+          <div onclick="selectVbsStep(5)" class="cursor-pointer bg-slate-900/90 border border-amber-500/30 hover:border-amber-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Trinn 5</span>
+            <h4 class="text-sm font-bold text-white">Tilbud (B2B)</h4>
+            <p class="text-xs text-slate-400">Konkretisering av verdi, FPP-avtale, B2B & pris.</p>
+          </div>
+
+          <div onclick="selectVbsStep(6)" class="cursor-pointer bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-400 p-4 rounded-xl transition space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Trinn 6</span>
+            <h4 class="text-sm font-bold text-white">Closing</h4>
+            <p class="text-xs text-slate-400">Digital signering, produksjon og verdi-realisering.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STEP DETAILS INSPECTOR DRAWER -->
+      <div id="step-detail-card" class="bg-slate-900 border border-cyan-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div>
+            <div class="flex items-center space-x-3 mb-1">
+              <span id="detail-tag" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Steg 1</span>
+              <span id="detail-role" class="text-xs text-slate-400">Ansvarlig: Telenor / Partner</span>
+            </div>
+            <h3 id="detail-title" class="text-xl font-bold text-white">Igangsette kunde-/behovsavklaring</h3>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-slate-400">Salesforce Salgssteg:</span>
+            <span id="detail-sf-stage" class="px-2 py-1 rounded bg-slate-800 text-xs font-semibold text-white border border-slate-700">Suspecting</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-5 text-sm">
+          <!-- Salesforce Click Path -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-xs uppercase tracking-wider text-cyan-400 flex items-center space-x-2">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              <span>Salesforce Klikkvei & Felter</span>
+            </h4>
+            <div id="detail-actions" class="text-slate-300 text-xs leading-relaxed space-y-1">
+              <!-- Dynamic via JS -->
+            </div>
+          </div>
+
+          <!-- Guidance / Questions -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-xs uppercase tracking-wider text-amber-400 flex items-center space-x-2">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Guidance / Kritiske Spørsmål</span>
+            </h4>
+            <div id="detail-checks" class="text-slate-300 text-xs leading-relaxed space-y-1">
+              <!-- Dynamic via JS -->
+            </div>
+          </div>
+
+          <!-- Deliverables & Examples -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-xs uppercase tracking-wider text-emerald-400 flex items-center space-x-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              <span>Leveranser & Eksempler</span>
+            </h4>
+            <div id="detail-kpis" class="text-slate-300 text-xs leading-relaxed space-y-2">
+              <!-- Dynamic via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: PROSESSDOKUMENTASJON (MARKDOWN VIEWER & EXPORT) -->
+    <!-- ========================================================================= -->
+    <section id="tab-docs" class="tab-content hidden space-y-6">
+      
+      <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white tracking-tight">Prosesshåndbok, B2B & Dokumentasjon</h2>
+          <p class="text-sm text-slate-400">Komplett klikkvei og veiledning for Telenor og partnerorganisasjonen.</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="relative">
+            <input type="text" id="doc-search" oninput="filterDocContent()" placeholder="Søk i dokumentasjon..." class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 w-48 sm:w-64">
+            <svg class="w-4 h-4 text-slate-500 absolute right-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <button onclick="copyMarkdownText()" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white transition flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Kopier MD</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rendered Document View -->
+      <div id="doc-rendered-body" class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-8 text-slate-300">
+        
+        <!-- Section 1 -->
+        <div class="doc-section space-y-3">
+          <h3 class="text-xl font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
+            <span class="text-cyan-400">1.</span>
+            <span>Overordnet Prosessoversikt & 6-Trinns Samspill</span>
+          </h3>
+          <p class="text-sm leading-relaxed text-slate-300">
+            Salgsprosessen koordineres gjennom Salesforce Lightning og sikrer tydelig ansvarsdeling mellom Telenor Kundeansvarlig (KAM/Selger) og Partner. Prosessen dekker hele løpet fra Opportunity-opprettelse i *Suspecting*, via felles behovsavklaring, FPP-tjenesteavtale og Back-to-Back B2B-avtale, til digital signering og igangsetting av tjenesteproduksjon.
+          </p>
+        </div>
+
+        <!-- Section 2: 6 Steps Detailed -->
+        <div class="doc-section space-y-4">
+          <h3 class="text-xl font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
+            <span class="text-cyan-400">2.</span>
+            <span>Salesforce Klikkvei & Samhandlingsflyt</span>
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border border-slate-800 rounded-xl overflow-hidden">
+              <thead class="bg-slate-800/80 text-slate-300 uppercase font-bold text-[11px]">
+                <tr>
+                  <th class="p-3">Steg</th>
+                  <th class="p-3">SF Salgssteg</th>
+                  <th class="p-3">Hovedoppgave</th>
+                  <th class="p-3">Ansvar</th>
+                  <th class="p-3">Salesforce Klikkvei & Felter</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300">
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-cyan-300">Steg 1</td>
+                  <td class="p-3 text-slate-400">Suspecting</td>
+                  <td class="p-3 font-medium text-white">Igangsette kunde-/behovsavklaring</td>
+                  <td class="p-3 text-slate-400">Telenor / Partner</td>
+                  <td class="p-3 text-slate-300">Registrer kunde &rarr; Opprett Opportunity &rarr; Close Date &rarr; Kilde & Sannsynlighet &rarr; Legg inn Revenue - kroner.</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-blue-300">Steg 2</td>
+                  <td class="p-3 text-slate-400">Prospecting</td>
+                  <td class="p-3 font-medium text-white">Lead sendes til partner</td>
+                  <td class="p-3 text-slate-400">Telenor / Partner</td>
+                  <td class="p-3 text-slate-300">Avklar beslutningstakere & pains &rarr; Inviter partner &rarr; Oppdater Opportunity Team &rarr; Samkjøre verdihypoteser & booke verdimøte.</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-indigo-300">Steg 3</td>
+                  <td class="p-3 text-slate-400">Kvalifisering</td>
+                  <td class="p-3 font-medium text-white">Partner utarbeider verdiforslag</td>
+                  <td class="p-3 text-slate-400">Partner</td>
+                  <td class="p-3 text-slate-300">Workshops & arkitekturskisse &rarr; Løsnings- og prisforslag &rarr; Oppdatere FPP Tjenesteavtale &rarr; Oversende til Telenor KAM.</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-purple-300">Steg 4</td>
+                  <td class="p-3 text-slate-400">Inngå Kontrakt</td>
+                  <td class="p-3 font-medium text-white">Booke salget (Quote & B2B)</td>
+                  <td class="p-3 text-slate-400">Telenor</td>
+                  <td class="p-3 text-slate-300">Opprett Quote &rarr; Pricing approval not Required &rarr; Søk FPP & partner &rarr; Kundespesifikk avtale = Ja: Signer B2B avtale m/partner.</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-amber-300">Steg 5</td>
+                  <td class="p-3 text-slate-400">Inngå Kontrakt</td>
+                  <td class="p-3 font-medium text-white">Oppdater kontrakt og få signert</td>
+                  <td class="p-3 text-slate-400">Telenor</td>
+                  <td class="p-3 text-slate-300">New Contract (Kundekontrakt) &rarr; Last opp FPP Tjenesteavtale under Documents &rarr; Start digital signature (BankID/DocuSign).</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-emerald-300">Steg 6</td>
+                  <td class="p-3 text-slate-400">Closed</td>
+                  <td class="p-3 font-medium text-white">Produksjonssetting / Tapsanalyse</td>
+                  <td class="p-3 text-slate-400">Telenor / Partner</td>
+                  <td class="p-3 text-slate-300">Won: Signert kontrakt til partner &rarr; Fakturering & drift.<br>Lost: Lost Review & lessons learned.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: B2B Rule -->
+        <div class="doc-section space-y-4">
+          <h3 class="text-xl font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
+            <span class="text-cyan-400">3.</span>
+            <span>B2B Back-to-Back Avtale & Juridisk Sikring</span>
+          </h3>
+          <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2">
+            <h4 class="text-sm font-bold text-purple-300">Trigger for B2B-avtale:</h4>
+            <p class="text-xs text-slate-200">
+              Dersom kunden har kundespesifikke krav, SLA-er eller vilkårsendringer, <strong>MÅ det inngås en Back-to-Back B2B-avtale mellom Telenor og partneren</strong>. Dette sikrer at alle kundespesifikke krav speiles direkte overfor underleverandøren.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: INTERAKTIVE SJEKKLISTER & GUIDANCE -->
+    <!-- ========================================================================= -->
+    <section id="tab-checklists" class="tab-content hidden space-y-6">
+      
+      <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white tracking-tight">Sjekklister & Guidance</h2>
+          <p class="text-sm text-slate-400">Følg oppgavene for hver rolle og besvar veiledningsspørsmålene (Guidance) underveis.</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button onclick="resetChecklists()" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 transition">
+            Nullstill avkrysning
+          </button>
+          <button onclick="copyChecklistSummary()" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white transition">
+            Kopier statusrapport
+          </button>
+        </div>
+      </div>
+
+      <!-- Role selector tabs -->
+      <div class="flex border-b border-slate-800 space-x-4">
+        <button onclick="switchChecklistRole('kam')" id="chk-tab-kam" class="pb-3 text-sm font-bold border-b-2 border-cyan-400 text-cyan-300 flex items-center space-x-2">
+          <span>Telenor Selger / KAM</span>
+          <span id="kam-count" class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">0/11</span>
+        </button>
+        <button onclick="switchChecklistRole('partner')" id="chk-tab-partner" class="pb-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+          <span>Partner Løsningsrådgiver</span>
+          <span id="partner-count" class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">0/10</span>
+        </button>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-semibold text-slate-300">Fullføringsgrad for valgt rolle:</span>
+          <span id="progress-percent" class="font-bold text-cyan-400">0%</span>
+        </div>
+        <div class="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
+          <div id="progress-bar" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- KAM Checklist items -->
+      <div id="checklist-kam-container" class="space-y-3">
+        <!-- Dynamic via JS -->
+      </div>
+
+      <!-- Partner Checklist items (hidden initially) -->
+      <div id="checklist-partner-container" class="hidden space-y-3">
+        <!-- Dynamic via JS -->
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: AVTALEMALER & KLAUSULER -->
+    <!-- ========================================================================= -->
+    <section id="tab-templates" class="tab-content hidden space-y-6">
+      
+      <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white tracking-tight">Klausul-Generator & Avtalemaler</h2>
+          <p class="text-sm text-slate-400">Fyll inn avtaledetaljer for å generere ferdige, juridisk kvalitetssikrede standardklausuler.</p>
+        </div>
+
+        <!-- Dynamic Form Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Kundenavn</label>
+            <input type="text" id="tpl-customer" oninput="updateClausePreviews()" value="Kunde AS" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Partnernavn (FPP Partner)</label>
+            <input type="text" id="tpl-partner" oninput="updateClausePreviews()" value="Partner Solutions AS" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Tjeneste / Løsning</label>
+            <input type="text" id="tpl-service" oninput="updateClausePreviews()" value="FPP Partner Løsning / Mobilt Bedriftsnett" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Signeringsmåned / Start</label>
+            <input type="text" id="tpl-date" oninput="updateClausePreviews()" value="September 2026" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+        </div>
+      </div>
+
+      <!-- Clauses Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Clause 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Klausul 1</span>
+              <span class="text-[11px] text-slate-400">Prisjustering</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Årlig prisjustering (KPI)</h3>
+            <p class="text-xs text-slate-400 mt-1">Sikrer at underleverandørs priser kan justeres i takt med SSBs konsumprisindeks.</p>
+            
+            <div class="mt-4 p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <pre id="clause-1-text" class="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed"></pre>
+            </div>
+          </div>
+          <button onclick="copyClause(1)" class="w-full mt-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5 border border-slate-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span>Kopier Klausul 1</span>
+          </button>
+        </div>
+
+        <!-- Clause 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Klausul 2</span>
+              <span class="text-[11px] text-slate-400">Marginvern</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Prisendring ved økte varekostnader</h3>
+            <p class="text-xs text-slate-400 mt-1">Regulerer adgang til å videreføre tredjepartskostnader med varsel og dokumentasjon.</p>
+            
+            <div class="mt-4 p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <pre id="clause-2-text" class="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed"></pre>
+            </div>
+          </div>
+          <button onclick="copyClause(2)" class="w-full mt-4 py-2 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5 border border-slate-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span>Kopier Klausul 2</span>
+          </button>
+        </div>
+
+        <!-- Clause 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Klausul 3</span>
+              <span class="text-[11px] text-slate-400">GDPR / Personvern</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Databehandleravtale (DPA)</h3>
+            <p class="text-xs text-slate-400 mt-1">Direkte DPA inngås mellom partner og kunde, slik at Telenor fritas der man mangler innsyn.</p>
+            
+            <div class="mt-4 p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <pre id="clause-3-text" class="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed"></pre>
+            </div>
+          </div>
+          <button onclick="copyClause(3)" class="w-full mt-4 py-2 bg-slate-800 hover:bg-slate-700 text-blue-300 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5 border border-slate-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span>Kopier Klausul 3</span>
+          </button>
+        </div>
+
+        <!-- Clause 4 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Klausul 4</span>
+              <span class="text-[11px] text-slate-400">Kundekrav</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Back-to-back B2B-avtale (Speile Kundekrav)</h3>
+            <p class="text-xs text-slate-400 mt-1">Sikrer at spesifikke kundekrav mot Telenor forplikter og etterleves av partner.</p>
+            
+            <div class="mt-4 p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <pre id="clause-4-text" class="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed"></pre>
+            </div>
+          </div>
+          <button onclick="copyClause(4)" class="w-full mt-4 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5 border border-slate-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span>Kopier Klausul 4</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: KPI SCORECARD & DEAL KALKULATOR -->
+    <!-- ========================================================================= -->
+    <section id="tab-kpis" class="tab-content hidden space-y-6">
+      
+      <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+        <h2 class="text-2xl font-bold text-white tracking-tight">KPI Scorecard & Deal-Kalkulator</h2>
+        <p class="text-sm text-slate-400">Oversikt over de 10 nøkkel-KPI-ene i VBS- og Salesforce-prosessen, samt interaktiv deal-kalkulator.</p>
+      </div>
+
+      <!-- 10 KPI Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-cyan-400 font-bold uppercase">KPI 1</span>
+          <h4 class="text-xs font-bold text-white">VBS Introsamtaler</h4>
+          <p class="text-[11px] text-slate-400">Antall gjennomførte innledende verdisamtaler.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-cyan-400 font-bold uppercase">KPI 2</span>
+          <h4 class="text-xs font-bold text-white">Hit Rate</h4>
+          <p class="text-[11px] text-slate-400">Andel samtaler som leder til booket møte.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-blue-400 font-bold uppercase">KPI 3</span>
+          <h4 class="text-xs font-bold text-white">Bookede Møter</h4>
+          <p class="text-[11px] text-slate-400">Antall avtalte VBS salgsmøter.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-blue-400 font-bold uppercase">KPI 4</span>
+          <h4 class="text-xs font-bold text-white">Gjennomførte Møter</h4>
+          <p class="text-[11px] text-slate-400">Realisert møteaktivitet sammen med partner.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-indigo-400 font-bold uppercase">KPI 5</span>
+          <h4 class="text-xs font-bold text-white">Verdislides</h4>
+          <p class="text-[11px] text-slate-400">Kvalitetssikrede verdipresentasjoner.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-amber-400 font-bold uppercase">KPI 6</span>
+          <h4 class="text-xs font-bold text-white">Antall Tilbud</h4>
+          <p class="text-[11px] text-slate-400">Formelle tilbud oversendt til kunde.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-amber-400 font-bold uppercase">KPI 7</span>
+          <h4 class="text-xs font-bold text-white">Close Rate</h4>
+          <p class="text-[11px] text-slate-400">Konvertering fra pipeline til signert avtale.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-emerald-400 font-bold uppercase">KPI 8</span>
+          <h4 class="text-xs font-bold text-white">Antall Kontrakter</h4>
+          <p class="text-[11px] text-slate-400">Totalt antall vunnede og signerte avtaler.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-emerald-400 font-bold uppercase">KPI 9</span>
+          <h4 class="text-xs font-bold text-white">ARPU / Salget</h4>
+          <p class="text-[11px] text-slate-400">Gjennomsnittlig inntekt per bruker/kunde.</p>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-1">
+          <span class="text-[10px] text-purple-400 font-bold uppercase">KPI 10</span>
+          <h4 class="text-xs font-bold text-white">Antall SIM</h4>
+          <p class="text-[11px] text-slate-400">Totalt antall oppkoblede abonnementer.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Calculator -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          <span>Interaktiv Deal- & Pipeline-Kalkulator</span>
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Antall VBS Introsamtaler</label>
+            <input type="number" id="calc-calls" oninput="calculatePipeline()" value="40" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Hit Rate til Møte (%)</label>
+            <input type="number" id="calc-hitrate" oninput="calculatePipeline()" value="50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Close Rate fra Tilbud (%)</label>
+            <input type="number" id="calc-closerate" oninput="calculatePipeline()" value="40" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Gj.snitt ARPU per SIM (kr/mnd)</label>
+            <input type="number" id="calc-arpu" oninput="calculatePipeline()" value="399" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Calculator Results -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-800">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center">
+            <span class="text-xs text-slate-400">Estimerte Bookede Møter</span>
+            <div id="calc-res-meetings" class="text-2xl font-extrabold text-cyan-400 mt-1">20</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center">
+            <span class="text-xs text-slate-400">Estimerte Signerte Kontrakter</span>
+            <div id="calc-res-deals" class="text-2xl font-extrabold text-emerald-400 mt-1">8</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center">
+            <span class="text-xs text-slate-400">Estimert Årlig Avtaleverdi (ved 50 SIM/deal)</span>
+            <div id="calc-res-annual" class="text-2xl font-extrabold text-blue-400 mt-1">1 915 200 kr</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-cyan-500/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 pointer-events-none">
+    <div class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+    <span id="toast-message" class="text-xs font-semibold">Kopiert til utklippstavlen!</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State data for 6 process steps based on the 08.09.26 ink B2B matrix
+    const stepData = {
+      1: {
+        tag: "Steg 1: Suspecting",
+        role: "Telenor / Partner",
+        title: "Igangsette kunde-/behovsavklaring",
+        sfStage: "Suspecting",
+        actions: [
+          "1. <strong>Velg Kunde:</strong> Søk opp og registrer kunden.",
+          "2. <strong>Velg Opportunity:</strong> Legg inn beskrivende opportunity-navn.",
+          "3. <strong>Velg Close date:</strong> Sett forventet lukkedato.",
+          "4. <strong>Velgs salgssteg:</strong> Sett status til <em>Suspecting</em>.",
+          "5. <strong>Velg Opportunity kilde:</strong> Registrer opprinnelse (f.eks. Innkommende/Anbud).",
+          "6. <strong>Velg probability:</strong> Angi estimert sannsynlighet.",
+          "7. <strong>Revenue-krav:</strong> <em>Må quote inn kundeverdier i Revenue - kroner</em>."
+        ],
+        checks: [
+          "• <strong>a. Volum & historikk:</strong> Kartlegge volum og historikk på kunden.",
+          "• <strong>b. Stakeholdere:</strong> Identifisere beslutningstakere (IT, innkjøp, daglig leder) og påvirkere.",
+          "• <strong>c. Verdihypoteser:</strong> Starte arbeidet med verdiforslag gjennom hypoteser (VBS).",
+          "• <strong>d. Førstegangsmøte:</strong> Gjennomføre første dialog med kunden og planlegge førstegangsmøte."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Prospecting & Introsamtale.",
+          "• <strong>KPI:</strong> Antall VBS introsamtaler & Hit rate.",
+          "• <strong>SF Eksempel 1:</strong> <a href='https://telenor.lightning.force.com/lightning/r/Opportunity/006So00000mRqgRIAS/view' target='_blank' class='text-cyan-400 hover:underline'>Opp 006So00000mRqgRIAS</a>"
+        ]
+      },
+      2: {
+        tag: "Steg 2: Prospecting",
+        role: "Telenor / Partner",
+        title: "Lead sendes til partner",
+        sfStage: "Prospecting",
+        actions: [
+          "1. <strong>Telenor:</strong> Avklarer beslutningstakere hos kunden.",
+          "2. <strong>Telenor:</strong> Dokumenterer kundens smertepunkter og pains.",
+          "3. <strong>Telenor:</strong> Inviterer inn sertifisert partner til behovs- og løsningsavklaring.",
+          "4. <strong>Telenor:</strong> Oppdaterer Opportunity Team i Salesforce.",
+          "5. <strong>Partner:</strong> Igangsetter aktiv behovsavklaring og samkjører verdihypoteser.",
+          "6. <strong>Felles:</strong> Booke formelt verdimøte med kunden."
+        ],
+        checks: [
+          "• <strong>a. Interessentdialog:</strong> Etablere dialog med interessenter og beslutningstakere.",
+          "• <strong>b. Kartlegge pains:</strong> Kartlegge kundens utfordringer, pains og ønskede gevinster.",
+          "• <strong>c. Inviter partner:</strong> Engasjere sertifisert partner for å bidra i kartlegging.",
+          "• <strong>d. Kjøpsprosess:</strong> Tilpasse kundens kjøpsprosess til Telenors salgsprosess.",
+          "• <strong>e. Opportunity Team:</strong> Oppdatere Opportunity Team i Salesforce.",
+          "• <strong>f. Ressurser:</strong> Koble på sertifisert partner og løsningsrådgiver.",
+          "• <strong>g. Samkjøre hypoteser:</strong> Avstemme utfordringer og forberede agenda for verdimøtet.",
+          "• <strong>h. Booke møte:</strong> Bekrefte møtetidspunkt med kundens nøkkelpersoner."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Salgsmøte & Tillitsbygging.",
+          "• <strong>KPI:</strong> Antall bookede og gjennomførte VBS møter.",
+          "• <strong>SF Eksempel 2:</strong> <a href='https://telenor.lightning.force.com/lightning/r/Opportunity/006So00000mSOQLIA4/view' target='_blank' class='text-cyan-400 hover:underline'>Opp 006So00000mSOQLIA4</a>"
+        ]
+      },
+      3: {
+        tag: "Steg 3: Kvalifisering",
+        role: "Partner (Løsningsrådgiver)",
+        title: "Partner utarbeider verdiforslag",
+        sfStage: "Kvalifisering / Utarbeide tilbud",
+        actions: [
+          "1. <strong>Partner:</strong> Gjennomfører workshops/intervjuer og kartlegger tekniske krav.",
+          "2. <strong>Partner:</strong> Visualiserer løsningsarkitektur (komponenter, integrasjoner, ansvarsforhold).",
+          "3. <strong>Partner:</strong> Utarbeider løsnings- og prisforslag som kunden bekrefter.",
+          "4. <strong>Partner:</strong> Fyller ut og oppdaterer <em>FPP Telenor Tjenesteavtale</em> med priser og spesifikasjoner.",
+          "5. <strong>Partner:</strong> Oversender oppdatert FPP Tjenesteavtale til Telenor KAM."
+        ],
+        checks: [
+          "• <strong>a. Felles forståelse:</strong> Samarbeide med partner om salgsstrategi og verdiforslag.",
+          "• <strong>b. Løsning til forretningsmål:</strong> Knytte løsning til kundens pains og ROI.",
+          "• <strong>c. Visualisere løsning:</strong> Beskrive løsningsarkitektur på et overordnet nivå.",
+          "• <strong>d. Behov & krav:</strong> Gjennomføre workshops og kartlegge suksesskriterier.",
+          "• <strong>e. Synliggjøre verdi:</strong> Presentere ROI, gevinster og relevante kundecaser.",
+          "• <strong>f. Konkurransedyktig tilbud:</strong> Sammenstille felles løsningsforslag og prisstruktur."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Verdibudskap & Løsningsdesign.",
+          "• <strong>KPI:</strong> Antall kvalitetssikrede verdislides & ARPU/salget."
+        ]
+      },
+      4: {
+        tag: "Steg 4: Inngå Kontrakt (Quote)",
+        role: "Telenor Salg (KAM / Selger)",
+        title: "Booke salget i Salesforce & B2B Avtale",
+        sfStage: "Inngå Kontrakt",
+        actions: [
+          "1. <strong>Velg Quote:</strong> Opprett ny Quote og legg inn Quote-navn.",
+          "2. <strong>Velg:</strong> Sett <em>Pricing approval not Required</em> (ved FPP).",
+          "3. <strong>Lagre Quoten</strong> og åpne den.",
+          "4. <strong>Add produkt:</strong> Søk etter <code>FPP</code> og velg FPP Partner.",
+          "5. <strong>Legg inn:</strong> Avtalte priser, antall, type mm.",
+          "6. <strong>B2B-KRAV:</strong> <span class='text-purple-300 font-bold'>Kundespesifikk avtale = Ja: Signer Back-to-Back B2B-avtale med partner!</span>",
+          "7. <strong>Sende tilbud:</strong> Formell oversendelse m/kopi til KAM & muntlig aksept."
+        ],
+        checks: [
+          "• <strong>a. Sammenstille underlag:</strong> Partner ferdigstiller løsningsbeskrivelse og priser.",
+          "• <strong>b. Oppdatere Quote:</strong> Telenor legger inn produktlinjer og avtaleverdi.",
+          "• <strong>c. Juridisk avsjekk:</strong> Sikre Back-to-back-avtale og direkte DPA.",
+          "• <strong>d. Sende tilbud:</strong> Formell oversendelse med kopi til Telenor KAM.",
+          "• <strong>e. Muntlig aksept:</strong> Innhente bekreftelse fra beslutningstaker.",
+          "• <strong>f. Signer B2B-avtale:</strong> Påkrevd ved kundespesifikke krav."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Tilbud & Konkretisering av verdi.",
+          "• <strong>KPI:</strong> Antall tilbud sendt & Close rate fra pipeline."
+        ]
+      },
+      5: {
+        tag: "Steg 5: Inngå Kontrakt (Signering)",
+        role: "Telenor Salg (KAM / Selger)",
+        title: "Oppdater kontrakt og få den signert",
+        sfStage: "Inngå Kontrakt",
+        actions: [
+          "1. <strong>Velg New Contract:</strong> Opprett ny kontrakt under kunden.",
+          "2. <strong>Datoer:</strong> Sett kontrakt start- og sluttdato.",
+          "3. <strong>Agreement Between:</strong> Velg <em>Kunde og Telenor</em>.",
+          "4. <strong>Type:</strong> Velg <em>Kundekontrakt</em>.",
+          "5. <strong>Dokumenter:</strong> Last opp <em>FPP Telenor Tjenesteavtale</em> under <code>Documents</code>.",
+          "6. <strong>Start digital signature:</strong> Velg intern signerer m/mandat og ekstern signatør.",
+          "7. <strong>Submit:</strong> Sendes til digital e-signering (BankID / DocuSign)."
+        ],
+        checks: [
+          "• <strong>a. Sluttforhandlinger:</strong> Avklare eventuelle detaljer, leveringsfrister og SLA.",
+          "• <strong>b. Elektronisk signering:</strong> Sende avtaledokument til e-signering (BankID/DocuSign).",
+          "• <strong>c. Kvalitetssikring:</strong> Verifisere gyldig signatur fra begge parter."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Closing & Kontraktsinngåelse.",
+          "• <strong>KPI:</strong> Antall kontrakter & Antall SIM."
+        ]
+      },
+      6: {
+        tag: "Steg 6: Closed",
+        role: "Telenor Salg & Partner",
+        title: "Igangsett produksjonssetting / tapsanalyse",
+        sfStage: "Closed (Won / Lost)",
+        actions: [
+          "<strong>Ved Vunnet (Produksjonssetting):</strong>",
+          "• Signert kontrakt oversendes til partner for oppstart.",
+          "• Fakturering igangsettes via Telenor & Tjenesteproduksjon via partner.",
+          "<strong>Ved Tapt (Tapsanalyse):</strong>",
+          "• Gjennomgang og analyse om årsak til tapt salgsmulighet.",
+          "• Registrere Lessons Learned og evaluere samspill."
+        ],
+        checks: [
+          "• <strong>a. Drift & faktura:</strong> Igangsette tjenesteproduksjon via partner og fakturering via Telenor.",
+          "• <strong>b. Lost Review:</strong> Felles tapsanalyse mellom Partner og Telenor ved tapt salgsmulighet."
+        ],
+        kpis: [
+          "• <strong>VBS-kobling:</strong> Realisering av verdi & Onboarding.",
+          "• <strong>KPI:</strong> Realisert ARPU, NPS & Close rate."
+        ]
+      }
+    };
+
+    const vbsStepData = {
+      1: { tag: "VBS Trinn 1", role: "Telenor Salg / Partner", title: "Prospecting", sfStage: "Suspecting", actions: ["Identifisere og prioritere de mest lønnsomme forretningsmulighetene i markedet."], checks: ["Definer målgruppe, selskapsstørrelse og teknologisk modenhet."], kpis: ["Pipeline-volum & Antall identifiserte leads."] },
+      2: { tag: "VBS Trinn 2", role: "Telenor Salg / Partner", title: "Introsamtale", sfStage: "Prospecting", actions: ["Åpne døren med relevant bransjeinnsikt, referanser og hypoteser som fenger kunden."], checks: ["Fokuser på kundens utfordringer – unngå ren produktpresentasjon."], kpis: ["Antall VBS introsamtaler & Hit rate."] },
+      3: { tag: "VBS Trinn 3", role: "Partner & Telenor", title: "Salgsmøte", sfStage: "Kvalifisering", actions: ["Gjennomføre grundig behovsavdekking, bygge tillit og forstå kundens reelle mål."], checks: ["Kartlegg beslutningstakere, budsjett og tidslinje."], kpis: ["Antall gjennomførte VBS salgsmøter."] },
+      4: { tag: "VBS Trinn 4", role: "Partner (Løsningsrådgiver)", title: "Verdibudskap", sfStage: "Løsningsdesign", actions: ["Koble løsningsforslaget direkte opp mot kundens økonomiske og operasjonelle mål."], checks: ["Utarbeide konkrete verdislides med ROI-kalkyle."], kpis: ["Antall kvalitetssikrede verdislides."] },
+      5: { tag: "VBS Trinn 5", role: "Partner & Telenor", title: "Tilbud (B2B)", sfStage: "Inngå Kontrakt", actions: ["Konkretisere verdier gjennom FPP Tjenesteavtale, Back-to-Back B2B og priser."], checks: ["Inkluder standardklausuler for prisjustering, DPA og back-to-back."], kpis: ["Antall tilbud sendt."] },
+      6: { tag: "VBS Trinn 6", role: "Telenor Salg & Partner", title: "Closing & Leveranse", sfStage: "Closed", actions: ["Sikre digital signering, produksjonssetting og gevinstrealisering."], checks: ["Oppdatere Salesforce til Closed Won og sende til reporting."], kpis: ["Close rate, Kontrakter & ARPU."] }
+    };
+
+    // Checklist definition matching the 08.09.26 ink B2B matrix
+    const checklists = {
+      kam: [
+        { id: "kam_1", text: "Steg 1: Opprettet Opportunity med kilde, close date, salgssteg 'Suspecting' og registrert Revenue - kroner." },
+        { id: "kam_2", text: "Steg 1: Kartlagt volum, historikk og identifisert relevante stakeholdere (IT, innkjøp, ledelse)." },
+        { id: "kam_3", text: "Steg 2: Avklart beslutningstakere og dokumentert pains/smertepunkter i Salesforce." },
+        { id: "kam_4", text: "Steg 2: Oppdatert Opportunity Team i Salesforce og invitert inn sertifisert FPP Partner." },
+        { id: "kam_5", text: "Steg 2: Samkjørt verdihypoteser og bekreftet formelt verdimøte." },
+        { id: "kam_6", text: "Steg 4: Opprettet Quote med 'Pricing approval not Required' og lagt inn FPP-produkt/partner." },
+        { id: "kam_7", text: "Steg 4: B2B SJEKK: Hvis kundespesifikk avtale = Ja, etablert og signert Back-to-Back B2B-avtale m/partner." },
+        { id: "kam_8", text: "Steg 4: Innhentet muntlig aksept fra beslutningstaker." },
+        { id: "kam_9", text: "Steg 5: Opprettet New Contract ('Agreement Between Kunde og Telenor', Type 'Kundekontrakt')." },
+        { id: "kam_10", text: "Steg 5: Lastet opp FPP Telenor Tjenesteavtale under Documents og startet digital signering (BankID/DocuSign)." },
+        { id: "kam_11", text: "Steg 6: Oversendt signert kontrakt til partner og igangsatt fakturering (el. gjennomført Lost Review)." }
+      ],
+      partner: [
+        { id: "ptn_1", text: "Steg 2: Mottatt lead og igangsatt aktiv behovsavklaring med kunden." },
+        { id: "ptn_2", text: "Steg 2: Kartlagt kundens pains og aligned kundens kjøpsprosess." },
+        { id: "ptn_3", text: "Steg 2: Samkjørt verdihypoteser med Telenor og booket formelt verdimøte." },
+        { id: "ptn_4", text: "Steg 3: Gjennomført workshops/intervjuer og kartlagt tekniske krav og suksesskriterier." },
+        { id: "ptn_5", text: "Steg 3: Visualisert løsningsarkitektur (komponenter, integrasjoner, ansvarsforhold) og presentert ROI." },
+        { id: "ptn_6", text: "Steg 3: Fylt ut og oppdatert FPP Telenor Tjenesteavtale med pris og spesifikasjoner." },
+        { id: "ptn_7", text: "Steg 3: Oversendt komplett FPP Tjenesteavtale til Telenor KAM." },
+        { id: "ptn_8", text: "Steg 4: Signert Back-to-Back B2B-avtale mot Telenor ved kundespesifikke krav." },
+        { id: "ptn_9", text: "Steg 4: Etablert direkte Databehandleravtale (DPA) mellom Partner og Kunde." },
+        { id: "ptn_10", text: "Steg 6: Mottatt signert kontrakt fra Telenor og igangsatt teknisk tjenesteproduksjon." }
+      ]
+    };
+
+    let activeChecklistRole = 'kam';
+
+    function init() {
+      renderChecklists();
+      updateClausePreviews();
+      calculatePipeline();
+      selectStep(1);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-gradient-to-r', 'from-cyan-500', 'to-blue-600', 'text-white', 'shadow-md');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeSection = document.getElementById('tab-' + tabId);
+      if (activeSection) activeSection.classList.remove('hidden');
+
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-gradient-to-r', 'from-cyan-500', 'to-blue-600', 'text-white', 'shadow-md');
+        activeBtn.classList.remove('text-slate-400');
+      }
+    }
+
+    function setViewMode(mode) {
+      const swimlaneContainer = document.getElementById('swimlane-container');
+      const vbsContainer = document.getElementById('vbs-container');
+      const btnSwimlane = document.getElementById('view-btn-swimlane');
+      const btnVbs = document.getElementById('view-btn-vbs');
+
+      if (mode === 'swimlane') {
+        swimlaneContainer.classList.remove('hidden');
+        vbsContainer.classList.add('hidden');
+        btnSwimlane.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-cyan-300 shadow transition";
+        btnVbs.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition";
+        selectStep(1);
+      } else {
+        swimlaneContainer.classList.add('hidden');
+        vbsContainer.classList.remove('hidden');
+        btnVbs.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-cyan-300 shadow transition";
+        btnSwimlane.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition";
+        selectVbsStep(1);
+      }
+    }
+
+    function selectStep(id) {
+      const data = stepData[id];
+      if (!data) return;
+      document.getElementById('detail-tag').innerText = data.tag;
+      document.getElementById('detail-role').innerText = "Ansvarlig: " + data.role;
+      document.getElementById('detail-title').innerText = data.title;
+      document.getElementById('detail-sf-stage').innerText = data.sfStage;
+      
+      document.getElementById('detail-actions').innerHTML = data.actions.map(a => `<div>${a}</div>`).join('');
+      document.getElementById('detail-checks').innerHTML = data.checks.map(c => `<div>${c}</div>`).join('');
+      document.getElementById('detail-kpis').innerHTML = data.kpis.map(k => `<div>${k}</div>`).join('');
+    }
+
+    function selectVbsStep(id) {
+      const data = vbsStepData[id];
+      if (!data) return;
+      document.getElementById('detail-tag').innerText = data.tag;
+      document.getElementById('detail-role').innerText = "Rolle: " + data.role;
+      document.getElementById('detail-title').innerText = data.title;
+      document.getElementById('detail-sf-stage').innerText = data.sfStage;
+      
+      document.getElementById('detail-actions').innerHTML = data.actions.map(a => `<div>${a}</div>`).join('');
+      document.getElementById('detail-checks').innerHTML = data.checks.map(c => `<div>${c}</div>`).join('');
+      document.getElementById('detail-kpis').innerHTML = data.kpis.map(k => `<div>${k}</div>`).join('');
+    }
+
+    function renderChecklists() {
+      const kamContainer = document.getElementById('checklist-kam-container');
+      const partnerContainer = document.getElementById('checklist-partner-container');
+
+      kamContainer.innerHTML = checklists.kam.map(item => createChecklistHtml(item)).join('');
+      partnerContainer.innerHTML = checklists.partner.map(item => createChecklistHtml(item)).join('');
+
+      updateProgress();
+    }
+
+    function createChecklistHtml(item) {
+      const checked = localStorage.getItem('sf_chk_b2b_' + item.id) === 'true';
+      return `
+        <label class="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer transition">
+          <input type="checkbox" id="${item.id}" ${checked ? 'checked' : ''} onchange="toggleCheck('${item.id}')" class="mt-0.5 rounded bg-slate-950 border-slate-700 text-cyan-500 focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer">
+          <span class="text-xs text-slate-200 select-none ${checked ? 'line-through text-slate-500' : ''}">${item.text}</span>
+        </label>
+      `;
+    }
+
+    function toggleCheck(id) {
+      const el = document.getElementById(id);
+      localStorage.setItem('sf_chk_b2b_' + id, el.checked);
+      renderChecklists();
+    }
+
+    function switchChecklistRole(role) {
+      activeChecklistRole = role;
+      const kamContainer = document.getElementById('checklist-kam-container');
+      const partnerContainer = document.getElementById('checklist-partner-container');
+      const tabKam = document.getElementById('chk-tab-kam');
+      const tabPartner = document.getElementById('chk-tab-partner');
+
+      if (role === 'kam') {
+        kamContainer.classList.remove('hidden');
+        partnerContainer.classList.add('hidden');
+        tabKam.className = "pb-3 text-sm font-bold border-b-2 border-cyan-400 text-cyan-300 flex items-center space-x-2";
+        tabPartner.className = "pb-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+      } else {
+        kamContainer.classList.add('hidden');
+        partnerContainer.classList.remove('hidden');
+        tabPartner.className = "pb-3 text-sm font-bold border-b-2 border-cyan-400 text-cyan-300 flex items-center space-x-2";
+        tabKam.className = "pb-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const kamChecked = checklists.kam.filter(i => localStorage.getItem('sf_chk_b2b_' + i.id) === 'true').length;
+      const partnerChecked = checklists.partner.filter(i => localStorage.getItem('sf_chk_b2b_' + i.id) === 'true').length;
+      
+      document.getElementById('kam-count').innerText = `${kamChecked}/${checklists.kam.length}`;
+      document.getElementById('partner-count').innerText = `${partnerChecked}/${checklists.partner.length}`;
+      document.getElementById('checklist-badge').innerText = `${kamChecked + partnerChecked}/${checklists.kam.length + checklists.partner.length}`;
+
+      const totalActive = activeChecklistRole === 'kam' ? checklists.kam.length : checklists.partner.length;
+      const checkedActive = activeChecklistRole === 'kam' ? kamChecked : partnerChecked;
+      const pct = Math.round((checkedActive / totalActive) * 100);
+
+      document.getElementById('progress-percent').innerText = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+    }
+
+    function resetChecklists() {
+      if (confirm('Er du sikker på at du vil nullstille all avkrysning?')) {
+        [...checklists.kam, ...checklists.partner].forEach(i => localStorage.removeItem('sf_chk_b2b_' + i.id));
+        renderChecklists();
+        showToast('Sjekklister ble nullstilt');
+      }
+    }
+
+    function updateClausePreviews() {
+      const customer = document.getElementById('tpl-customer').value || '[Kunde AS]';
+      const partner = document.getElementById('tpl-partner').value || '[Partner AS]';
+      const service = document.getElementById('tpl-service').value || '[Tjeneste]';
+      const date = document.getElementById('tpl-date').value || '[Dato]';
+
+      document.getElementById('clause-1-text').innerText = 
+`Årlig prisjustering (KPI):
+Underleverandørens (${partner}) priser kan justeres årlig ved årsskiftet i tråd med økningen i Statistisk sentralbyrås konsumprisindeks (hovedindeksen). Første justering for ${customer} baseres på indeksen for måneden avtalen ble signert (${date}).`;
+
+      document.getElementById('clause-2-text').innerText = 
+`Prisendring ved økte varekostnader:
+Prisene for ${service} kan også justeres dersom underleverandørens (${partner}) varekostnader fra tredjepart øker. I slike tilfeller skal leverandøren:
+1. Varsle kunden (${customer}) om prisendringen.
+2. Dokumentere grunnlaget for endringen.
+Prisendringen trer i kraft fra det tidspunkt kunden mottar varselet.`;
+
+      document.getElementById('clause-3-text').innerText = 
+`Databehandleravtale (DPA):
+Det skal inngås en direkte databehandleravtale (DPA) mellom underleverandør (${partner}) og kunde (${customer}) for ${service}. Dette sikrer at Telenor ikke påtar seg ansvar for behandling av person- og kundedata i tjenester der Telenor ikke har innsyn i dataene.`;
+
+      document.getElementById('clause-4-text').innerText = 
+`Back-to-back B2B-avtale (Speiling av kundekrav):
+Det skal etableres en Back-to-Back B2B-avtale mellom Telenor og underleverandør (${partner}) for leveransen av ${service} til ${customer}. Dette sikrer at alle kundespesifikke krav, SLA-er og vilkår videreføres og etterleves av partneren.`;
+    }
+
+    function copyClause(num) {
+      const text = document.getElementById(`clause-${num}-text`).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`Klausul ${num} kopiert!`);
+      });
+    }
+
+    function calculatePipeline() {
+      const calls = parseFloat(document.getElementById('calc-calls').value) || 0;
+      const hitrate = (parseFloat(document.getElementById('calc-hitrate').value) || 0) / 100;
+      const closerate = (parseFloat(document.getElementById('calc-closerate').value) || 0) / 100;
+      const arpu = parseFloat(document.getElementById('calc-arpu').value) || 0;
+
+      const meetings = Math.round(calls * hitrate);
+      const deals = Math.round(meetings * closerate);
+      const annualValue = deals * 50 * arpu * 12;
+
+      document.getElementById('calc-res-meetings').innerText = meetings;
+      document.getElementById('calc-res-deals').innerText = deals;
+      document.getElementById('calc-res-annual').innerText = new Intl.NumberFormat('no-NO').format(annualValue) + ' kr';
+    }
+
+    function filterDocContent() {
+      const query = document.getElementById('doc-search').value.toLowerCase();
+      document.querySelectorAll('.doc-section').forEach(sec => {
+        if (sec.innerText.toLowerCase().includes(query)) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    function copyMarkdownText() {
+      const mdContent = `# Forenkling av Partnerprosess i Salesforce (inkl. B2B & FPP)
+
+Dette dokumentet beskriver den standardiserte salgsprosessen og samspillet mellom Telenor Salg og Partnere i Salesforce Lightning.
+
+## 6-Trinns Prosess
+1. Igangsette kunde-/behovsavklaring (Suspecting - Revenue i kroner)
+2. Lead sendes til partner (Prospecting - Opportunity Team & verdimøte)
+3. Partner utarbeider verdiforslag (Kvalifisering - Løsningsarkitektur & FPP Tjenesteavtale)
+4. Booke salget i Salesforce (Quote - FPP & Back-to-Back B2B Avtale)
+5. Oppdater kontrakt og få den signert (Inngå Kontrakt - Documents & BankID/DocuSign)
+6. Igangsett produksjonssetting / tapsanalyse (Closed - Won/Lost Review)
+
+## B2B-Krav & Standardklausuler
+- Kundespesifikk avtale = Ja -> Signer Back-to-Back B2B avtale med partner
+- Direkte DPA mellom Partner og Kunde
+- Årlig prisjustering (KPI) & Prisendring ved økte varekostnader`;
+      
+      navigator.clipboard.writeText(mdContent).then(() => {
+        showToast('Prosess-markdown kopiert!');
+      });
+    }
+
+    function exportProcessSummary() {
+      const element = document.createElement("a");
+      const file = new Blob([document.getElementById('clause-1-text').innerText + "\n\n" + document.getElementById('clause-4-text').innerText], {type: 'text/plain'});
+      element.href = URL.createObjectURL(file);
+      element.download = "Telenor_Partner_Salgsprosess_B2B.txt";
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+      showToast('Fil lastet ned!');
+    }
+
+    function copyChecklistSummary() {
+      const kamChecked = checklists.kam.filter(i => localStorage.getItem('sf_chk_b2b_' + i.id) === 'true').length;
+      const partnerChecked = checklists.partner.filter(i => localStorage.getItem('sf_chk_b2b_' + i.id) === 'true').length;
+      const summary = `Statusrapport Salesforce Partner Salgsprosess (B2B):\n- Telenor Salg / KAM: ${kamChecked}/${checklists.kam.length} fullført\n- Partner Løsningsrådgiver: ${partnerChecked}/${checklists.partner.length} fullført`;
+      navigator.clipboard.writeText(summary).then(() => {
+        showToast('Statusrapport kopiert!');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
