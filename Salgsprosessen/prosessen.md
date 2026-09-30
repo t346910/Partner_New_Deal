@@ -1,6 +1,6 @@
 # Forenkling av Partnerprosess i Salesforce (inkl. B2B & FPP)
 
-Dette dokumentet beskriver den standardiserte salgsprosessen og samspillet mellom **Telenor Salg** og **Partnere** (Fast Partner Pris - FPP / Business Partner Access - BPA) i Salesforce Lightning. Prosessen dekker metodikken for Verdibasert Salg (VBS), digital signeringsflyt (BankID / DocuSign), Back-to-back B2B-avtale ved kundespesifikke krav, og påkrevde juridiske standardklausuler.
+Dette dokumentet beskriver den standardiserte salgsprosessen og samspillet mellom **Telenor Salg** og **Partnere** (Fleksibelt Partner Produkt - FPP / Business Partner Access - BPA) i Salesforce Lightning. Prosessen dekker metodikken for Verdibasert Salg (VBS), digital signeringsflyt (BankID / DocuSign), Back-to-back B2B-avtale ved kundespesifikke krav, og påkrevde juridiske standardklausuler.
 
 ---
 
@@ -252,17 +252,17 @@ Når en kundeavtale inneholder **kundespesifikke krav, særskilte SLA-er, tilpas
 | **5. TILBUD** | Konkretisering av verdier | Utarbeide FPP-tjenesteavtale, priser og B2B-avsjekk. |
 | **6. CLOSING** | Sikre salg & realisere verdi | E-signering (BankID), produksjonssetting og fakturering. |
 
-### 10 Nøkkel-KPI-er:
+### 10 Kritiske KPI-er for Salgsteamet:
 1. **Antall VBS introsamtaler**
-2. **Hit rate (samtale til møte)**
+2. **Hit rate** (fra samtale til møte)
 3. **Antall bookede VBS møter**
 4. **Antall gjennomførte VBS salgsmøter**
 5. **Antall kvalitetssikrede verdislides**
 6. **Antall tilbud sendt**
-7. **Close rate fra pipeline**
+7. **Close rate** fra pipeline
 8. **Antall kontrakter signert**
-9. **ARPU / Salget**
-10. **Antall SIM**
+9. **Total Revenue / Avtaleverdi i kroner**
+10. **Signerte avtaler pr. partner** (og samlet Revenue pr. partner)
 
 ---
 
